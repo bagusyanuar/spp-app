@@ -70,6 +70,31 @@
                     </li>
                     <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">
                         <a href="#" class="nav-link {{ request()->is('persediaan-keluar*') ? 'active' : ''}}">
+                            <i class="nav-icon fa fa-money"></i>
+                            <p>
+                                Keuangan
+                                <i class="right fa fa-angle-down"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#"
+                                   class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                    <p>Pos Keuangan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#"
+                                   class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                    <p>Jenis Pembayaran</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">
+                        <a href="#" class="nav-link {{ request()->is('persediaan-keluar*') ? 'active' : ''}}">
                             <i class="nav-icon fa fa-database"></i>
                             <p>
                                 Manajemen Data
