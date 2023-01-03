@@ -110,7 +110,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#"
+                                <a href="{{ route('kelas') }}"
                                    class="nav-link">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Kelas</p>
@@ -121,6 +121,24 @@
                                    class="nav-link">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Siswa</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">
+                        <a href="#" class="nav-link {{ request()->is('persediaan-keluar*') ? 'active' : ''}}">
+                            <i class="nav-icon fa fa-bar-chart"></i>
+                            <p>
+                                Laporan
+                                <i class="right fa fa-angle-down"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#"
+                                   class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                    <p>Laporan Keuangan</p>
                                 </a>
                             </li>
                         </ul>
