@@ -21,11 +21,13 @@
     </div>
     <div class="w-100 p-2">
         <div class="card card-outline card-info">
-            <div class="card-body">
+            <div class="card-header">
                 <div class="text-right mb-2">
                     <a href="#" class="btn btn-primary"><i class="fa fa-plus mr-1"></i><span
                             class="font-weight-bold">Tambah</span></a>
                 </div>
+            </div>
+            <div class="card-body">
                 <table id="table-data" class="display w-100 table table-bordered">
                     <thead>
                     <tr>
