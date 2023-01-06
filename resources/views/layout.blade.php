@@ -16,6 +16,15 @@
     <link href="{{ asset('/css/sweetalert2.css') }}" rel="stylesheet">
     <script src="{{ asset('/js/sweetalert2.min.js')}}"></script>
     <title>Sistem Informasi SPP</title>
+    <style>
+        .swal2-shown {
+            overflow: unset !important;
+            padding-right: 0 !important;
+        }
+        body.modal-open {
+            padding-right: 0 !important;
+        }
+    </style>
     @yield('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

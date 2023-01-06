@@ -15,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/kelas', [\App\Http\Controllers\KelasController::class, 'index'])->name('kelas');
+Route::group(['prefix' => 'kelas'], function () {
+    Route::match(['get', 'post'], '/', [\App\Http\Controllers\KelasController::class, 'index'])->name('kelas');
+});
+
