@@ -17,5 +17,7 @@ Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->na
 
 Route::group(['prefix' => 'kelas'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\KelasController::class, 'index'])->name('kelas');
+    Route::post( '/{id}', [\App\Http\Controllers\KelasController::class, 'patch'])->name('kelas.update');
+    Route::post( '/{id}/delete', [\App\Http\Controllers\KelasController::class, 'destroy'])->name('kelas.delete');
 });
 

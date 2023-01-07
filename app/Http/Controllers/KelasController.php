@@ -35,8 +35,27 @@ class KelasController extends CustomController
         return view('kelas.index');
     }
 
-    public function patch()
+    public function patch($id)
     {
+        try {
+            $data = Kelas::find($id);
+            $data_request = [
+                'nama' => $this->postField('name')
+            ];
+            $data->update($data_request);
+            return $this->jsonResponse('success', 200);
+        }catch (\Exception $e) {
+            return $this->jsonResponse('failed ' . $e->getMessage(), 500);
+        }
+    }
 
+    public function destroy($id)
+    {
+        try {
+            Kelas::destroy($id);
+            return $this->jsonResponse('success', 200);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('failed', 500);
+        }
     }
 }

@@ -18,7 +18,7 @@
         <div class="card card-outline card-info">
             <div class="card-header">
                 <div class="text-right mb-2">
-                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd"><i
                             class="fa fa-plus mr-1"></i><span
                             class="font-weight-bold">Tambah</span></a>
                 </div>
@@ -39,12 +39,12 @@
         </div>
 
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Kelas</h5>
+                    <h5 class="modal-title" id="modalAddLabel">Tambah Kelas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -64,6 +64,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditLabel">Tambah Kelas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="hidden" id="id" name="id" value="">
+                <div class="modal-body">
+                    <div class="w-100 mb-1">
+                        <label for="nama-edit" class="form-label">Nama Kelas</label>
+                        <input type="text" class="form-control" id="nama-edit" placeholder="Nama Kelas"
+                               name="nama-edit">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button id="btn-patch" type="button" class="btn btn-primary"><i class="fa fa-save mr-2"></i>Simpan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -73,6 +99,8 @@
 
         function clear() {
             $('#nama').val('');
+            $('#nama-edit').val('');
+            $('#id').val('');
         }
 
         function store() {
@@ -87,6 +115,28 @@
             });
         }
 
+        function patch() {
+            let id = $('#id').val();
+            let url = '{{ route('kelas') }}' + '/' + id;
+            let data = {
+                name: $('#nama-edit').val()
+            };
+            AjaxPost(url, data, function () {
+                clear();
+                SuccessAlert('Berhasil!', 'Berhasil merubah data...');
+                reload();
+            });
+        }
+
+        function destroy(id) {
+            let url = '{{ route('kelas') }}' + '/' + id + '/delete';
+            AjaxPost(url, {}, function () {
+                clear();
+                SuccessAlert('Berhasil!', 'Berhasil menghapus data...');
+                reload();
+            });
+        }
+
         function reload() {
             table.ajax.reload();
         }
@@ -96,15 +146,32 @@
                 e.preventDefault();
                 let id = this.dataset.id;
                 let name = this.dataset.name;
-                $('#nama').val(name);
-                $('#exampleModal').modal('show');
+                $('#nama-edit').val(name);
+                $('#id').val(id);
+                $('#modalEdit').modal('show');
             })
         }
+
 
         function deleteEvent() {
             $('.btn-delete').on('click', function (e) {
                 e.preventDefault();
                 let id = this.dataset.id;
+                Swal.fire({
+                    title: "Konfirmasi!",
+                    text: "Apakah anda yakin menghapus data?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.value) {
+                        destroy(id);
+                    }
+                });
+
             })
         }
 
@@ -147,8 +214,27 @@
                     }
                 });
             });
-
-            $('#exampleModal').on('hidden.bs.modal', function (e) {
+            $('#btn-patch').on('click', function () {
+                Swal.fire({
+                    title: "Konfirmasi!",
+                    text: "Apakah anda yakin merubah data?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.value) {
+                        patch();
+                    }
+                });
+            });
+            deleteEvent();
+            $('#modalAdd').on('hidden.bs.modal', function (e) {
+                clear();
+            });
+            $('#modalEdit').on('hidden.bs.modal', function (e) {
                 clear();
             })
         });
