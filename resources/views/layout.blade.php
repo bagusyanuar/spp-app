@@ -29,10 +29,13 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <nav class="main-header navbar navbar-expand elevation-1">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav align-items-center">
         <li class="nav-item">
             <a class="nav-link navbar-link-item" data-widget="pushmenu" href="#" role="button"><i
                     class="fa fa-bars"></i></a>
+        </li>
+        <li class="nav-item">
+            <span style="color: rgba(0,0,0,.5);">Aplikasi SPP SMK MUHAMMADIYAH 2 Wuryantoro</span>
         </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -102,8 +105,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ request()->is('persediaan-keluar*') ? 'active' : ''}}">
+                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa']) ? 'menu-open' : ''}}">
+                        <a href="#" class="nav-link {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa']) ? 'active' : ''}}">
                             <i class="nav-icon fa fa-database"></i>
                             <p>
                                 Manajemen Data
@@ -113,14 +116,14 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('tahun-ajaran') }}"
-                                   class="nav-link">
+                                   class="nav-link {{ request()->is('tahun-ajaran') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Tahun Ajaran</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('kelas') }}"
-                                   class="nav-link">
+                                   class="nav-link {{ request()->is('kelas') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Kelas</p>
                                 </a>
