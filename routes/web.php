@@ -21,3 +21,10 @@ Route::group(['prefix' => 'kelas'], function () {
     Route::post( '/{id}/delete', [\App\Http\Controllers\KelasController::class, 'destroy'])->name('kelas.delete');
 });
 
+Route::group(['prefix' => 'tahun-ajaran'], function () {
+    Route::match(['get', 'post'], '/', [\App\Http\Controllers\TahunAjaranContoller::class, 'index'])->name('tahun-ajaran');
+    Route::post( '/{id}', [\App\Http\Controllers\TahunAjaranContoller::class, 'patch'])->name('tahun-ajaran.update');
+    Route::post( '/{id}/delete', [\App\Http\Controllers\TahunAjaranContoller::class, 'destroy'])->name('tahun-ajaran.delete');
+    Route::post( '/{id}/change', [\App\Http\Controllers\TahunAjaranContoller::class, 'change'])->name('tahun-ajaran.change');
+});
+

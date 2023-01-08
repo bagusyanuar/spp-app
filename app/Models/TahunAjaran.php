@@ -13,7 +13,7 @@ class TahunAjaran extends Model
 
     protected $fillable = [
         'periode',
-        'akitf'
+        'aktif'
     ];
 
     protected $casts = [

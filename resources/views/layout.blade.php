@@ -112,7 +112,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#"
+                                <a href="{{ route('tahun-ajaran') }}"
                                    class="nav-link">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Tahun Ajaran</p>
@@ -126,7 +126,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#"
+                                <a href=""
                                    class="nav-link">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Siswa</p>
