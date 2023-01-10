@@ -28,3 +28,11 @@ Route::group(['prefix' => 'tahun-ajaran'], function () {
     Route::post( '/{id}/change', [\App\Http\Controllers\TahunAjaranContoller::class, 'change'])->name('tahun-ajaran.change');
 });
 
+Route::group(['prefix' => 'siswa'], function () {
+    Route::match(['get', 'post'], '/', [\App\Http\Controllers\SiswaController::class, 'index'])->name('siswa');
+    Route::match(['get', 'post'], '/add', [\App\Http\Controllers\SiswaController::class, 'store'])->name('siswa.store');
+    Route::post( '/{id}', [\App\Http\Controllers\SiswaController::class, 'patch'])->name('siswa.update');
+    Route::post( '/{id}/delete', [\App\Http\Controllers\SiswaController::class, 'destroy'])->name('siswa.delete');
+    Route::post( '/{id}/change', [\App\Http\Controllers\SiswaController::class, 'change'])->name('siswa.change');
+});
+

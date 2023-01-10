@@ -12,13 +12,15 @@ class Siswa extends Model
     protected $table = 'siswa';
 
     protected $fillable = [
+        'nis',
         'kelas_id',
         'nama',
         'jenis_kelamin',
         'tempat_lahir',
         'tanggal_lahir',
         'no_hp',
-        'alamat'
+        'alamat',
+        'status',
     ];
 
     public function kelas()

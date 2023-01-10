@@ -129,8 +129,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href=""
-                                   class="nav-link">
+                                <a href="{{ route('siswa') }}"
+                                   class="nav-link {{ request()->is('siswa') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Siswa</p>
                                 </a>
