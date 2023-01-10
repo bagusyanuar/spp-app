@@ -16,6 +16,9 @@ class AddNisSiswa extends Migration
         Schema::table('siswa', function (Blueprint $table) {
             $table->string('nis')->after('id')->unique();
             $table->smallInteger('status')->default(0)->after('alamat');
+            $table->string('ibu')->after('status');
+            $table->string('ayah')->after('ibu');
+            $table->string('no_hp_ortu')->after('ayah');
         });
     }
 
@@ -29,6 +32,9 @@ class AddNisSiswa extends Migration
         Schema::table('siswa', function (Blueprint $table) {
             $table->dropColumn('nis');
             $table->dropColumn('status');
+            $table->dropColumn('ibu');
+            $table->dropColumn('ayah');
+            $table->dropColumn('no_hp_ortu');
         });
     }
 }
