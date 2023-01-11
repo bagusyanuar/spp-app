@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+Route::group(['prefix' => 'jenis-pembayaran'], function () {
+    Route::match(['get', 'post'], '/', [\App\Http\Controllers\JenisPembayaranController::class, 'index'])->name('jenis-pembayaran');
+    Route::post( '/{id}', [\App\Http\Controllers\JenisPembayaranController::class, 'patch'])->name('jenis-pembayaran.update');
+    Route::post( '/{id}/delete', [\App\Http\Controllers\JenisPembayaranController::class, 'destroy'])->name('jenis-pembayaran.delete');
+});
+
+Route::group(['prefix' => 'pos-pembayaran'], function () {
+    Route::match(['get', 'post'], '/', [\App\Http\Controllers\PosPembayaranController::class, 'index'])->name('pos-pembayaran');
+    Route::post( '/{id}', [\App\Http\Controllers\PosPembayaranController::class, 'patch'])->name('pos-pembayaran.update');
+    Route::post( '/{id}/delete', [\App\Http\Controllers\PosPembayaranController::class, 'destroy'])->name('pos-pembayaran.delete');
+});
+
 Route::group(['prefix' => 'kelas'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\KelasController::class, 'index'])->name('kelas');
     Route::post( '/{id}', [\App\Http\Controllers\KelasController::class, 'patch'])->name('kelas.update');

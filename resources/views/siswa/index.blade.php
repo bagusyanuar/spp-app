@@ -95,7 +95,7 @@
                 '<div class="col-lg-3 col-md-4 col-sm-6">' +
                 '<p class="mb-0">No. Handphone</p>' +
                 '</div>' +
-                '<div class="col-lg-9 col-md-8 col-sm-6">: ' + d['no_hp'] + '</div>' +
+                '<div class="col-lg-9 col-md-8 col-sm-6">: +62' + d['no_hp'] + '</div>' +
                 '</div>' +
                 '<div class="row mb-0">' +
                 '<div class="col-lg-3 col-md-4 col-sm-6">' +
@@ -114,6 +114,24 @@
                 '<p class="mb-0">Tempat, Tanggal Lahir</p>' +
                 '</div>' +
                 '<div class="col-lg-9 col-md-8 col-sm-6">: ' + d['tempat_lahir'] + ', '+d['tanggal_lahir']+'</div>' +
+                '</div>' +
+                '<div class="row">' +
+                '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                '<p class="mb-0">Ibu Kandung</p>' +
+                '</div>' +
+                '<div class="col-lg-9 col-md-8 col-sm-6">: ' + d['ibu'] + '</div>' +
+                '</div>' +
+                '<div class="row">' +
+                '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                '<p class="mb-0">Ayah Kandung</p>' +
+                '</div>' +
+                '<div class="col-lg-9 col-md-8 col-sm-6">: ' + d['ayah'] + '</div>' +
+                '</div>' +
+                '<div class="row">' +
+                '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                '<p class="mb-0">No. Handphone Ortu</p>' +
+                '</div>' +
+                '<div class="col-lg-9 col-md-8 col-sm-6">: +62' + d['no_hp_ortu'] + '</div>' +
                 '</div>' +
                 '</div>';
         }

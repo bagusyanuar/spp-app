@@ -80,8 +80,8 @@
                             <p>Pembayaran Siswa</p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ request()->is('persediaan-keluar*') ? 'active' : ''}}">
+                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['jenis-pembayaran', 'pos-pembayaran']) ? 'menu-open' : ''}}">
+                        <a href="#" class="nav-link {{ in_array(request()->path(), ['jenis-pembayaran', 'pos-pembayaran']) ? 'active' : ''}}">
                             <i class="nav-icon fa fa-money"></i>
                             <p>
                                 Keuangan
@@ -90,17 +90,17 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link">
+                                <a href="{{ route('jenis-pembayaran') }}"
+                                   class="nav-link {{ request()->is('jenis-pembayaran') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Pos Keuangan</p>
+                                    <p>Jenis Pembayaran</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link">
+                                <a href="{{ route('pos-pembayaran') }}"
+                                   class="nav-link {{ request()->is('pos-pembayaran') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Jenis Pembayaran</p>
+                                    <p>Pos Pembayaran</p>
                                 </a>
                             </li>
                         </ul>
