@@ -20,11 +20,18 @@ class PosPembayaranController extends CustomController
     public function index()
     {
         $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->first();
-
-
         if ($this->request->method() === 'POST' && $this->request->ajax()) {
             try {
+                $is_exists = PosPembayaran::with([])
+                    ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+                    ->where('jenis_pembayaran_id', '=', $this->postField('jenis_pembayaran'))
+                    ->where('kelas_id', '=', $this->postField('kelas'))
+                    ->exists();
+                if ($is_exists) {
+                    return $this->jsonResponse('jenis pembayaran sudah disimpan...', 500);
+                }
                 $data_request = [
+                    'tahun_ajaran_id' => $tahun_ajaran->id,
                     'jenis_pembayaran_id' => $this->postField('jenis_pembayaran'),
                     'kelas_id' => $this->postField('kelas'),
                     'nominal' => $this->postField('nominal'),
@@ -51,5 +58,15 @@ class PosPembayaranController extends CustomController
             'kelas' => $kelas,
             'jenis_pembayaran' => $jenis_pembayaran,
         ]);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            PosPembayaran::destroy($id);
+            return $this->jsonResponse('success', 200);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('failed', 500);
+        }
     }
 }

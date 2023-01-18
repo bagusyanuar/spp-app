@@ -19,7 +19,8 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
-                        <p class="font-weight-bold">Pos Pembayaran Siswa Tahun Ajaran {{ $tahun_ajaran !== null ? $tahun_ajaran->periode : '-' }}</p>
+                        <p class="font-weight-bold">Pos Pembayaran Siswa Tahun
+                            Ajaran {{ $tahun_ajaran !== null ? $tahun_ajaran->periode : '-' }}</p>
                     </div>
                     <div class="text-right">
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd"><i
@@ -55,6 +56,10 @@
                     <tbody>
                     </tbody>
                 </table>
+                <hr>
+                <div class="text-right">
+                    <p class="font-weight-bold">Total Pembayaran : Rp. <span id="total">0</span></p>
+                </div>
             </div>
         </div>
 
@@ -100,12 +105,11 @@
         var table;
 
         function clear() {
-            $('#nama').val('');
-            $('#id').val('');
+            $('#nominal').val(0);
         }
 
         function store() {
-            let url = '{{ route('jenis-pembayaran') }}';
+            let url = '{{ route('pos-pembayaran') }}';
             let data = {
                 kelas: $('#kelas').val(),
                 jenis_pembayaran: $('#jenis_pembayaran').val(),
@@ -115,11 +119,12 @@
                 clear();
                 SuccessAlert('Berhasil!', 'Berhasil menyimpan data...');
                 reload();
+                $('#modalAdd').modal('hide');
             });
         }
 
         function destroy(id) {
-            let url = '{{ route('jenis-pembayaran') }}' + '/' + id + '/delete';
+            let url = '{{ route('pos-pembayaran') }}' + '/' + id + '/delete';
             AjaxPost(url, {}, function () {
                 clear();
                 SuccessAlert('Berhasil!', 'Berhasil menghapus data...');
@@ -158,22 +163,28 @@
             table = DataTableGenerator('#table-data', '/pos-pembayaran', [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
                 {data: 'jenis_pembayaran.nama'},
-                {data: 'nominal'},
+                {
+                    data: 'nominal', name: 'nominal', render: function (data) {
+                        return 'Rp. ' + data.toLocaleString('id-ID');
+                    }
+                },
                 {
                     data: null, render: function (data) {
-                        return '<a href="#" class="btn btn-sm btn-warning btn-edit" data-id="' + data['id'] + '" data-name="' + data['nama'] + '"><i class="fa fa-edit f12"></i></a>' +
-                            '<a href="#" class="btn btn-sm btn-danger btn-delete" data-id="' + data['id'] + '"><i class="fa fa-trash f12"></i></a>';
+                        return '<a href="#" class="btn btn-sm btn-danger btn-delete" data-id="' + data['id'] + '"><i class="fa fa-trash f12"></i></a>';
                     }
                 },
             ], [
                 {
-                    targets: [0, 2],
+                    targets: [0, 2, 3],
                     className: 'text-center'
                 },
             ], function (d) {
                 d.kelas = $('#kelas').val();
             }, {
                 "fnDrawCallback": function (setting) {
+                    let data = this.fnGetData();
+                    let total = data.map(item => item['nominal']).reduce((prev, next) => prev + next, 0);
+                    $('#total').html(total.toLocaleString('id-ID'));
                     deleteEvent();
                 }
             });

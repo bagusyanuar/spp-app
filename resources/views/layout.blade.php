@@ -74,8 +74,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#"
-                           class="nav-link">
+                        <a href="{{ route('pembayaran') }}"
+                           class="nav-link {{ request()->is('pembayaran*') ? 'active' : ''}}">
                             <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
                             <p>Pembayaran Siswa</p>
                         </a>

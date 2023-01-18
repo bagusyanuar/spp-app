@@ -23,7 +23,12 @@ Route::group(['prefix' => 'jenis-pembayaran'], function () {
 
 Route::group(['prefix' => 'pos-pembayaran'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\PosPembayaranController::class, 'index'])->name('pos-pembayaran');
-    Route::post( '/{id}', [\App\Http\Controllers\PosPembayaranController::class, 'patch'])->name('pos-pembayaran.update');
+    Route::post( '/{id}/delete', [\App\Http\Controllers\PosPembayaranController::class, 'destroy'])->name('pos-pembayaran.delete');
+});
+
+Route::group(['prefix' => 'pembayaran'], function () {
+    Route::get( '/', [\App\Http\Controllers\PembayaranController::class, 'index'])->name('pembayaran');
+    Route::match(['get', 'post'], '/tambah', [\App\Http\Controllers\PembayaranController::class, 'add'])->name('pembayaran.add');
     Route::post( '/{id}/delete', [\App\Http\Controllers\PosPembayaranController::class, 'destroy'])->name('pos-pembayaran.delete');
 });
 

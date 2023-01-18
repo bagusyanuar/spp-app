@@ -42,7 +42,8 @@ async function AjaxPost(url, param = {}, onSuccess = function () {
             onAccepted();
         }
     } catch (e) {
-        ErrorAlert('Error', e.responseText.toString());
+        let error_message = JSON.parse(e.responseText);
+        ErrorAlert('Error', error_message.message);
     }
 }
 
