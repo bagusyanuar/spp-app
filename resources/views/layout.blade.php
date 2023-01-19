@@ -135,6 +135,13 @@
                                     <p>Siswa</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('pos-kelas-siswa') }}"
+                                   class="nav-link {{ request()->is('pos-kelas-siswa') ? 'active' : ''}}">
+                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                    <p>Pos Kelas Siswa</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">

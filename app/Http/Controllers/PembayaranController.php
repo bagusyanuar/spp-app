@@ -73,13 +73,32 @@ class PembayaranController extends CustomController
         ]);
     }
 
-    public function pembayaran_siswa()
+    public function total_pembayaran_siswa()
     {
         try {
             $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->first();
-
-        }catch (\Exception $e) {
-
+            $siswa_id = $this->field('siswa');
+            $data_siswa = Siswa::find($siswa_id);
+            $total = 0;
+            $pembayaran = 0;
+            $kekurangan = 0;
+            if ($data_siswa) {
+                $total = PosPembayaran::with(['jenis_pembayaran'])->where('kelas_id', '=', $data_siswa->kelas_id)
+                    ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+                    ->sum('nominal');
+                $pembayaran = Pembayaran::with([])
+                    ->where('siswa_id', '=', $siswa_id)
+                    ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+                    ->sum('nominal');
+                $kekurangan = (int)$total - (int)$pembayaran;
+            }
+            return $this->jsonResponse('success', 200, [
+                'total' => (int)$total,
+                'pembayaran' => (int)$pembayaran,
+                'kekurangan' => $kekurangan
+            ]);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('internal server error ' . $e->getMessage(), 500);
         }
     }
 }

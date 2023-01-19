@@ -89,11 +89,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-9"><p class="font-weight-bold mb-0">Terbayar : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total">0</span></p></div>
+                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p></div>
                             </div>
                             <div class="row">
                                 <div class="col-9"><p class="font-weight-bold mb-0">Kekurangan : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total">0</span></p></div>
+                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p></div>
                             </div>
 
                         </div>
@@ -114,6 +114,31 @@
 
         function reload() {
             table.ajax.reload();
+        }
+
+        async function getTotalPembayaranSiswa() {
+            try {
+                let siswa = $('#siswa').val();
+                let response = await $.get('/pembayaran/total-pembayaran-siswa?siswa=' + siswa);
+                if(response['status'] === 200) {
+                    let total = response['payload']['total'].toLocaleString('id-ID');
+                    let pembayaran = response['payload']['pembayaran'].toLocaleString('id-ID');
+                    let kekurangan = response['payload']['kekurangan'].toLocaleString('id-ID');
+                    $('#total').html(total);
+                    $('#pembayaran').html(pembayaran);
+                    $('#kekurangan').html(kekurangan);
+                }else {
+                    $('#total').html(0);
+                    $('#pembayaran').html(0);
+                    $('#kekurangan').html(0);
+                }
+            } catch (e) {
+                $('#total').html(0);
+                $('#pembayaran').html(0);
+                $('#kekurangan').html(0);
+                let error_message = JSON.parse(e.responseText);
+                ErrorAlert('Error', error_message.message);
+            }
         }
 
         $(document).ready(function () {
@@ -138,14 +163,12 @@
                 d.siswa = $('#siswa').val();
             }, {
                 "fnDrawCallback": function (setting) {
-                    let data = this.fnGetData();
-                    let total = data.map(item => item['nominal']).reduce((prev, next) => prev + next, 0);
-                    $('#total').html(total.toLocaleString('id-ID'));
                 },
                 dom: 't'
             });
 
             $('#siswa').on('change', function () {
+                getTotalPembayaranSiswa();
                 reload();
             });
 
