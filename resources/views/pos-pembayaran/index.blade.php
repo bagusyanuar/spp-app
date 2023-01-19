@@ -4,6 +4,7 @@
 @endsection
 
 @section('content')
+
     <div class="d-flex align-items-center justify-content-between mb-3">
         <p class="font-weight-bold mb-0" style="font-size: 20px">Halaman Pos Pembayaran</p>
         <ol class="breadcrumb breadcrumb-transparent mb-0">
