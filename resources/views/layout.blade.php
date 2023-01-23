@@ -105,8 +105,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa']) ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa']) ? 'active' : ''}}">
+                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa', 'pos-kelas-siswa']) ? 'menu-open' : ''}}">
+                        <a href="#" class="nav-link {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa', 'pos-kelas-siswa']) ? 'active' : ''}}">
                             <i class="nav-icon fa fa-database"></i>
                             <p>
                                 Manajemen Data
@@ -157,7 +157,16 @@
                                 <a href="#"
                                    class="nav-link">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Laporan Keuangan</p>
+                                    <p>Jurnal Penerimaan</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#"
+                                   class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                    <p>Pembayaran</p>
                                 </a>
                             </li>
                         </ul>

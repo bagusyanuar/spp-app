@@ -1,6 +1,13 @@
 @extends('layout')
 
 @section('css')
+    <link href="{{ asset('/adminlte/plugins/select2/select2.css') }}" rel="stylesheet">
+    <style>
+        .select2-selection {
+            height: 40px !important;
+            line-height: 40px !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -49,6 +56,7 @@
                     <thead>
                     <tr>
                         <th width="5%" class="text-center">#</th>
+                        <th width="15%">NIS</th>
                         <th>Nama Siswa</th>
                         <th width="10%" class="text-center">Action</th>
                     </tr>
@@ -65,16 +73,20 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAddLabel">Tambah Jenis Pembayaran</h5>
+                    <h5 class="modal-title" id="modalAddLabel">Tambah Siswa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="w-100 mb-1">
-                        <label for="nominal" class="form-label">Nominal</label>
-                        <input type="number" class="form-control" id="nominal" value="0"
-                               name="nominal">
+                    <div class="form-group w-100">
+                        <label for="siswa">Siswa</label>
+                        <select class="select2" name="siswa" id="siswa" style="width: 100%;">
+                            <option value="">--pilih siswa--</option>
+                            @foreach($siswa as $v)
+                                <option value="{{ $v->id }}">{{ $v->nama }} ({{ $v->nis }})</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -88,17 +100,58 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('/adminlte/plugins/select2/select2.js') }}"></script>
+    <script src="{{ asset('/adminlte/plugins/select2/select2.full.js') }}"></script>
     <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
         var table;
+        var path = '/{{ request()->path() }}';
 
         function clear() {
         }
+
         function reload() {
             table.ajax.reload();
         }
 
+        function store() {
+            let data = {
+                siswa: $('#siswa').val(),
+                kelas: $('#kelas').val(),
+            };
+            AjaxPost(path, data, function () {
+                clear();
+                SuccessAlert('Berhasil!', 'Berhasil menyimpan data...');
+                reload();
+                $('#modalAdd').modal('hide');
+            });
+        }
+
         $(document).ready(function () {
+            $('.select2').select2({
+                width: 'resolve'
+            });
+
+            table = DataTableGenerator('#table-data', path, [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
+                {data: 'siswa.nis'},
+                {data: 'siswa.nama'},
+                {
+                    data: null, render: function (data) {
+                        return '<a href="#" class="btn btn-sm btn-danger btn-delete" data-id="' + data['id'] + '"><i class="fa fa-trash f12"></i></a>';
+                    }
+                },
+            ], [
+                {
+                    targets: [0, 1, 3],
+                    className: 'text-center'
+                },
+            ], function (d) {
+                d.kelas = $('#kelas').val();
+            }, {
+                "fnDrawCallback": function (setting) {
+                },
+            });
             $('#btn-save').on('click', function () {
                 Swal.fire({
                     title: "Konfirmasi!",
@@ -111,6 +164,7 @@
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.value) {
+                        store();
                     }
                 });
             });
