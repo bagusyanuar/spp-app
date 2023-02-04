@@ -34,24 +34,24 @@
                     </div>
                 </div>
                 <hr>
-                <table id="table-data" class="display table table-bordered" style="width: 1500px">
+                <table id="table-data" class="display table table-bordered no-wrap" style="width: 1500px">
                     <thead>
                     <tr>
-                        <th style="width: 50px" class="text-center">#</th>
-                        <th style="width: 200px">NIS</th>
-                        <th style="width: 300px">Nama Siswa</th>
-                        <th style="width: 80px">Juni</th>
-                        <th style="width: 80px">Juli</th>
-                        <th style="width: 80px">Agustus</th>
-                        <th style="width: 80px">September</th>
-                        <th style="width: 80px">Oktober</th>
-                        <th style="width: 80px">November</th>
-                        <th style="width: 80px">Desember</th>
-                        <th style="width: 80px">Januari</th>
-                        <th style="width: 80px">Februari</th>
-                        <th style="width: 80px">Maret</th>
-                        <th style="width: 80px">April</th>
-                        <th style="width: 80px">Mei</th>
+                        <th class="text-center">#</th>
+                        <th >NIS</th>
+                        <th >Nama Siswa</th>
+                        <th >Juni</th>
+                        <th >Juli</th>
+                        <th >Agustus</th>
+                        <th >September</th>
+                        <th >Oktober</th>
+                        <th >November</th>
+                        <th >Desember</th>
+                        <th >Januari</th>
+                        <th >Februari</th>
+                        <th >Maret</th>
+                        <th >April</th>
+                        <th >Mei</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,14 +78,14 @@
         }
         $(document).ready(function () {
             table = $('#table-data').removeAttr('width').DataTable({
-                scrollY:        "300px",
                 scrollX:        true,
                 scrollCollapse: true,
-                paging:         false,
+                paging:         true,
                 columnDefs: [
-                    { width: 200, targets: 0 }
-                ],
-                fixedColumns: true
+                    { "width": "400px", "targets": [1] },
+                    { "width": "400px", "targets": [2] },
+                    { "width": "80px", "targets": [3, 4, 5, 6, 7, 8, 9] },
+                ]
             });
             // table = DataTableGenerator('#table-data',path, [
             //     {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
