@@ -144,8 +144,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item has-treeview {{ request()->is('persediaan-keluar*') ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ request()->is('persediaan-keluar*') ? 'active' : ''}}">
+                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'menu-open' : ''}}">
+                        <a href="#" class="nav-link {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'active' : ''}}">
                             <i class="nav-icon fa fa-bar-chart"></i>
                             <p>
                                 Laporan
@@ -154,8 +154,8 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link">
+                                <a href="{{ route('laporan.penerimaan.index') }}"
+                                   class="nav-link {{ request()->is('laporan-penerimaan') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Jurnal Penerimaan</p>
                                 </a>
@@ -163,8 +163,8 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link">
+                                <a href="{{ route('laporan.pembayaran.index') }}"
+                                   class="nav-link {{ request()->is('laporan-pembayaran') ? 'active' : ''}}">
                                     <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
                                     <p>Pembayaran</p>
                                 </a>

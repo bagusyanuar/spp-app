@@ -46,7 +46,7 @@
                                 <select class="select2" name="siswa" id="siswa" style="width: 100%;">
                                     <option value="">--pilih siswa--</option>
                                     @foreach($siswa as $v)
-                                        <option value="{{ $v->id }}">{{ $v->nama }} ({{ $v->nis }})</option>
+                                        <option value="{{ $v->siswa_id }}">{{ $v->siswa->nama }} ({{ $v->siswa->nis }})</option>
                                     @endforeach
                                 </select>
                             </div>

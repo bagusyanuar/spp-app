@@ -58,3 +58,10 @@ Route::group(['prefix' => 'pos-kelas-siswa'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\PosKelasSiswaController::class, 'index'])->name('pos-kelas-siswa');
 });
 
+Route::group(['prefix' => 'laporan-penerimaan'], function () {
+    Route::get('/', [\App\Http\Controllers\LaporanJurnalPenerimaanController::class, 'index'])->name('laporan.penerimaan.index');
+});
+Route::group(['prefix' => 'laporan-pembayaran'], function () {
+    Route::get('/', [\App\Http\Controllers\LaporanPembayaranController::class, 'index'])->name('laporan.pembayaran.index');
+});
+

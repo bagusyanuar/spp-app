@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\CustomController;
 use App\Models\Pembayaran;
+use App\Models\PosKelasSiswa;
 use App\Models\PosPembayaran;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
@@ -66,7 +67,7 @@ class PembayaranController extends CustomController
                 return $this->basicDataTables([]);
             }
         }
-        $siswa = Siswa::with(['kelas'])->get();
+        $siswa = PosKelasSiswa::with(['siswa', 'kelas'])->where('tahun_ajaran_id', '=', $tahun_ajaran->id)->get();
         return view('pembayaran.add')->with([
             'tahun_ajaran' => $tahun_ajaran,
             'siswa' => $siswa,
