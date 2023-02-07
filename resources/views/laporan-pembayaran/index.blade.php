@@ -5,12 +5,12 @@
 
 @section('content')
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <p class="font-weight-bold mb-0" style="font-size: 20px">Halaman Laporan Jurnal Penerimaan</p>
+        <p class="font-weight-bold mb-0" style="font-size: 20px">Halaman Laporan Pembayaran</p>
         <ol class="breadcrumb breadcrumb-transparent mb-0">
             <li class="breadcrumb-item">
                 <a href="{{ route('dashboard') }}">Dashboard</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Laporan Jurnal Penerimaan
+            <li class="breadcrumb-item active" aria-current="page">Laporan Pembayaran
             </li>
         </ol>
     </div>
@@ -19,13 +19,21 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
-                        <p class="font-weight-bold">Pembayaran Siswa Tahun
+                        <p class="font-weight-bold">Laporan Pembayaran Siswa Tahun
                             Ajaran {{ $tahun_ajaran !== null ? $tahun_ajaran->periode : '-' }}</p>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-end mb-3">
+                    <div class="w-25">
+                        <label for="kelas">Kelas</label>
+                        <select id="kelas" class="form-control" name="kelas" form="form-input">
+                            @foreach($kelas as $v)
+                                <option value="{{ $v->id }}">{{ $v->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="text-right">
                         <a href="#" class="btn btn-success" id="btn-cetak">
                             <i class="fa fa-print mr-2"></i>
@@ -38,20 +46,20 @@
                     <thead>
                     <tr>
                         <th class="text-center">#</th>
-                        <th >NIS</th>
-                        <th >Nama Siswa</th>
-                        <th >Juni</th>
-                        <th >Juli</th>
-                        <th >Agustus</th>
-                        <th >September</th>
-                        <th >Oktober</th>
-                        <th >November</th>
-                        <th >Desember</th>
-                        <th >Januari</th>
-                        <th >Februari</th>
-                        <th >Maret</th>
-                        <th >April</th>
-                        <th >Mei</th>
+                        <th>NIS</th>
+                        <th>Nama Siswa</th>
+                        <th>Juni</th>
+                        <th>Juli</th>
+                        <th>Agustus</th>
+                        <th>September</th>
+                        <th>Oktober</th>
+                        <th>November</th>
+                        <th>Desember</th>
+                        <th>Januari</th>
+                        <th>Februari</th>
+                        <th>Maret</th>
+                        <th>April</th>
+                        <th>Mei</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,18 +81,20 @@
     <script>
         var table;
         var path = '/{{ request()->path() }}';
+
         function reload() {
             table.ajax.reload();
         }
+
         $(document).ready(function () {
             table = $('#table-data').removeAttr('width').DataTable({
-                scrollX:        true,
+                scrollX: true,
                 scrollCollapse: true,
-                paging:         true,
+                paging: true,
                 columnDefs: [
-                    { "width": "400px", "targets": [1] },
-                    { "width": "400px", "targets": [2] },
-                    { "width": "80px", "targets": [3, 4, 5, 6, 7, 8, 9] },
+                    {"width": "600px", "targets": [1]},
+                    {"width": "600px", "targets": [2]},
+                    {"width": "80px", "targets": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]},
                 ]
             });
             // table = DataTableGenerator('#table-data',path, [

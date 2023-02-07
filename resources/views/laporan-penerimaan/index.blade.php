@@ -19,7 +19,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
-                        <p class="font-weight-bold">Pembayaran Siswa Tahun
+                        <p class="font-weight-bold">Laporan Jurnal Penerimaan Tahun
                             Ajaran {{ $tahun_ajaran !== null ? $tahun_ajaran->periode : '-' }}</p>
                     </div>
 {{--                    <div class="text-right">--}}

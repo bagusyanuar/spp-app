@@ -63,5 +63,6 @@ Route::group(['prefix' => 'laporan-penerimaan'], function () {
 });
 Route::group(['prefix' => 'laporan-pembayaran'], function () {
     Route::get('/', [\App\Http\Controllers\LaporanPembayaranController::class, 'index'])->name('laporan.pembayaran.index');
+    Route::get('/data', [\App\Http\Controllers\LaporanPembayaranController::class, 'getData'])->name('laporan.pembayaran.data');
 });
 

@@ -31,4 +31,5 @@ class PosKelasSiswa extends Model
     {
         return $this->belongsTo(TahunAjaran::class, 'tahun_ajaran_id');
     }
+
 }
