@@ -23,8 +23,10 @@ class PembayaranController extends CustomController
     {
         $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->first();
         if ($this->request->ajax()) {
-            $data = Pembayaran::with(['siswa', 'kelas', 'tahun_ajaran'])
-                ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+            $data = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas'])
+                ->whereHas('pos_kelas_siswa', function ($q) use ($tahun_ajaran) {
+                    return $q->where('tahun_ajaran_id', '=', $tahun_ajaran->id);
+                })
                 ->where('tanggal', '=', Carbon::now()->format('Y-m-d'))
                 ->orderBy('id', 'DESC')
                 ->get();
@@ -68,9 +70,49 @@ class PembayaranController extends CustomController
             }
         }
         $siswa = PosKelasSiswa::with(['siswa', 'kelas'])->where('tahun_ajaran_id', '=', $tahun_ajaran->id)->get();
+        $bulan = [
+            [
+                'index' => 0,
+                'nama' => 'Januari'
+            ], [
+                'index' => 1,
+                'nama' => 'Februari'
+            ], [
+                'index' => 2,
+                'nama' => 'Maret'
+            ], [
+                'index' => 3,
+                'nama' => 'April'
+            ], [
+                'index' => 4,
+                'nama' => 'Mei'
+            ], [
+                'index' => 5,
+                'nama' => 'Juni'
+            ], [
+                'index' => 6,
+                'nama' => 'Juli'
+            ], [
+                'index' => 7,
+                'nama' => 'Agusutus'
+            ], [
+                'index' => 8,
+                'nama' => 'September'
+            ], [
+                'index' => 9,
+                'nama' => 'Oktober'
+            ], [
+                'index' => 10,
+                'nama' => 'November'
+            ], [
+                'index' => 11,
+                'nama' => 'Desember'
+            ],
+        ];
         return view('pembayaran.add')->with([
             'tahun_ajaran' => $tahun_ajaran,
             'siswa' => $siswa,
+            'bulan' => $bulan,
         ]);
     }
 
@@ -87,9 +129,10 @@ class PembayaranController extends CustomController
                 $total = PosPembayaran::with(['jenis_pembayaran'])->where('kelas_id', '=', $data_siswa->kelas_id)
                     ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
                     ->sum('nominal');
-                $pembayaran = Pembayaran::with([])
-                    ->where('siswa_id', '=', $siswa_id)
-                    ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+                $pembayaran = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas'])
+                    ->whereHas('pos_kelas_siswa', function ($q) use ($tahun_ajaran, $siswa_id) {
+                        return $q->where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('siswa_id', '=', $siswa_id);
+                    })
                     ->sum('nominal');
                 $kekurangan = (int)$total - (int)$pembayaran;
             }

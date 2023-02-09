@@ -12,25 +12,14 @@ class Pembayaran extends Model
     protected $table = 'pembayaran';
 
     protected $fillable = [
+        'pos_kelas_siswa_id',
         'tanggal',
-        'siswa_id',
-        'kelas_id',
-        'tahun_ajaran_id',
         'nominal',
+        'keterangan',
     ];
 
-    public function siswa()
+    public function pos_kelas_siswa()
     {
-        return $this->belongsTo(Siswa::class, 'siswa_id');
-    }
-
-    public function kelas()
-    {
-        return $this->belongsTo(Kelas::class, 'kelas_id');
-    }
-
-    public function tahun_ajaran()
-    {
-        return $this->belongsTo(TahunAjaran::class, 'tahun_ajaran_id');
+        return $this->belongsTo(PosKelasSiswa::class, 'pos_kelas_siswa_id');
     }
 }

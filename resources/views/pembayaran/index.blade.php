@@ -69,8 +69,8 @@
             table = DataTableGenerator('#table-data', '/pembayaran', [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
                 {data: 'tanggal'},
-                {data: 'siswa.nama'},
-                {data: 'kelas.nama'},
+                {data: 'pos_kelas_siswa.siswa.nama'},
+                {data: 'pos_kelas_siswa.kelas.nama'},
                 {
                     data: 'nominal', name: 'nominal', render: function (data) {
                         return 'Rp. ' + data.toLocaleString('id-ID');

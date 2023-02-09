@@ -7,6 +7,16 @@
             height: 40px !important;
             line-height: 40px !important;
         }
+
+        .select2-container--default .select2-selection--multiple {
+            border: 1px solid #d2d6de;
+            height: 54px !important;
+            overflow-y: scroll;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: black !important;
+        }
     </style>
 @endsection
 
@@ -51,9 +61,13 @@
                                 </select>
                             </div>
                             <div class="w-100 mb-3">
-                                <label for="nominal" class="form-label">Nominal</label>
-                                <input type="number" class="form-control" id="nominal" value="0"
-                                       name="nominal">
+                                <label for="bulan">Pembayaran Bulan</label>
+                                <select class="select2" name="bulan[]" id="bulan" multiple style="width: 100%; height: 100px;">
+                                    <option value="">--pilih siswa--</option>
+                                    @foreach($bulan as $v)
+                                        <option value="{{ $v['index'] }}" {{ $v['index'] === 1 ? 'disabled' : '' }}>{{ $v['nama'] }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="text-right">
                                 <a href="#" id="btn-save" class="btn btn-primary"><i
@@ -189,6 +203,7 @@
                     }
                 });
             });
+            getTotalPembayaranSiswa();
         });
     </script>
 @endsection
