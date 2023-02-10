@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Helper\CustomController;
 use App\Models\Pembayaran;
+use App\Models\PembayaranDetail;
 use App\Models\PosKelasSiswa;
 use App\Models\PosPembayaran;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PembayaranController extends CustomController
 {
@@ -41,18 +43,33 @@ class PembayaranController extends CustomController
     {
         $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->first();
         if ($this->request->method() === 'POST') {
+            DB::beginTransaction();
             try {
-                $data_siswa = Siswa::find($this->postField('siswa'));
+                $data_pos_kelas_siswa = PosKelasSiswa::find($this->postField('siswa'));
+                $bulans = $this->postField('bulan');
+                $data_pos_pembayaran = PosPembayaran::where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('kelas_id', '=', $data_pos_kelas_siswa->kelas_id)
+                    ->sum('nominal');
+                $per_bulan = round($data_pos_pembayaran / 12, 0);
+                $totalBayar = count($bulans) * $per_bulan;
                 $data_request = [
                     'tanggal' => Carbon::now(),
-                    'siswa_id' => $this->postField('siswa'),
-                    'kelas_id' => $data_siswa->kelas_id,
-                    'tahun_ajaran_id' => $tahun_ajaran->id,
-                    'nominal' => $this->postField('nominal')
+                    'pos_kelas_siswa_id' => $data_pos_kelas_siswa->id,
+                    'nominal' => $totalBayar,
+                    'keterangan' => '',
                 ];
-                Pembayaran::create($data_request);
+                $pembayaran = Pembayaran::create($data_request);
+                foreach ($bulans as $bulan) {
+                    $data_detail = [
+                        'pembayaran_id' => $pembayaran->id,
+                        'bulan' => $bulan,
+                        'nominal' => $per_bulan
+                    ];
+                    PembayaranDetail::create($data_detail);
+                }
+                DB::commit();
                 return redirect()->route('pembayaran')->with('success', 'berhasil menyimpan pembayaran');
             } catch (\Exception $e) {
+                DB::rollBack();
                 return redirect()->back()->with('failed', 'terjadi kesalahan server...');
             }
 
@@ -60,8 +77,8 @@ class PembayaranController extends CustomController
         if ($this->request->ajax()) {
             try {
                 $siswa_id = $this->field('siswa');
-                $data_siswa = Siswa::find($siswa_id);
-                $data_pos = PosPembayaran::with(['jenis_pembayaran'])->where('kelas_id', '=', $data_siswa->kelas_id)
+                $data_pos_kelas_siswa = PosKelasSiswa::find($siswa_id);
+                $data_pos = PosPembayaran::with(['jenis_pembayaran'])->where('kelas_id', '=', $data_pos_kelas_siswa->kelas_id)
                     ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
                     ->get();
                 return $this->basicDataTables($data_pos);
@@ -121,28 +138,48 @@ class PembayaranController extends CustomController
         try {
             $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->first();
             $siswa_id = $this->field('siswa');
-            $data_siswa = Siswa::find($siswa_id);
             $total = 0;
             $pembayaran = 0;
             $kekurangan = 0;
-            if ($data_siswa) {
-                $total = PosPembayaran::with(['jenis_pembayaran'])->where('kelas_id', '=', $data_siswa->kelas_id)
-                    ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
-                    ->sum('nominal');
-                $pembayaran = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas'])
-                    ->whereHas('pos_kelas_siswa', function ($q) use ($tahun_ajaran, $siswa_id) {
-                        return $q->where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('siswa_id', '=', $siswa_id);
-                    })
-                    ->sum('nominal');
-                $kekurangan = (int)$total - (int)$pembayaran;
+            $bulan_pembayaran = [];
+            $data_pos_kelas = PosKelasSiswa::find($siswa_id);
+            if ($data_pos_kelas) {
+                $data_siswa = Siswa::find($data_pos_kelas->siswa_id);
+
+                if ($data_siswa) {
+                    $total = PosPembayaran::with(['jenis_pembayaran'])->where('kelas_id', '=', $data_pos_kelas->kelas_id)
+                        ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+                        ->sum('nominal');
+                    $pembayaran = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas'])
+                        ->where('pos_kelas_siswa_id', '=', $data_pos_kelas->id)
+//                    ->whereHas('pos_kelas_siswa', function ($q) use ($tahun_ajaran, $data_siswa) {
+//                        return $q->where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('siswa_id', '=', $data_siswa->id);
+//                    })
+                        ->sum('nominal');
+                    $kekurangan = (int)$total - (int)$pembayaran;
+                }
+
+                $data_pembayaran = Pembayaran::with(['details'])
+                    ->where('pos_kelas_siswa_id', '=', $data_pos_kelas->id)->get();
+
+                foreach ($data_pembayaran as $value) {
+                    $details = $value->details;
+                    foreach ($details as $vDetail) {
+                        array_push($bulan_pembayaran, $vDetail->bulan);
+                    }
+                }
+
             }
+
             return $this->jsonResponse('success', 200, [
                 'total' => (int)$total,
                 'pembayaran' => (int)$pembayaran,
-                'kekurangan' => $kekurangan
+                'kekurangan' => $kekurangan,
+                'bulan_pembayaran' => $bulan_pembayaran
             ]);
         } catch (\Exception $e) {
             return $this->jsonResponse('internal server error ' . $e->getMessage(), 500);
         }
     }
+
 }

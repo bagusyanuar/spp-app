@@ -22,4 +22,9 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(PosKelasSiswa::class, 'pos_kelas_siswa_id');
     }
+
+    public function details()
+    {
+        return $this->hasMany(PembayaranDetail::class, 'pembayaran_id');
+    }
 }

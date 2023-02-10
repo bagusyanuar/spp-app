@@ -56,16 +56,18 @@
                                 <select class="select2" name="siswa" id="siswa" style="width: 100%;">
                                     <option value="">--pilih siswa--</option>
                                     @foreach($siswa as $v)
-                                        <option value="{{ $v->siswa_id }}">{{ $v->siswa->nama }} ({{ $v->siswa->nis }})</option>
+                                        <option value="{{ $v->id }}">{{ $v->siswa->nama }} ({{ $v->siswa->nis }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="w-100 mb-3">
                                 <label for="bulan">Pembayaran Bulan</label>
-                                <select class="select2" name="bulan[]" id="bulan" multiple style="width: 100%; height: 100px;">
+                                <select class="select2" name="bulan[]" id="bulan" multiple
+                                        style="width: 100%; height: 100px;">
                                     <option value="">--pilih siswa--</option>
                                     @foreach($bulan as $v)
-                                        <option value="{{ $v['index'] }}" {{ $v['index'] === 1 ? 'disabled' : '' }}>{{ $v['nama'] }}</option>
+                                        <option value="{{ $v['index'] }}">{{ $v['nama'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -103,11 +105,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-9"><p class="font-weight-bold mb-0">Terbayar : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p></div>
+                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-9"><p class="font-weight-bold mb-0">Kekurangan : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p></div>
+                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p>
+                                </div>
                             </div>
 
                         </div>
@@ -125,6 +129,45 @@
     <script>
         var table;
         var path = '/{{ request()->path() }}';
+        var arrBulan = [
+            {
+                index: 0,
+                nama: 'Januari'
+            }, {
+                index: 1,
+                nama: 'Februari'
+            }, {
+                index: 2,
+                nama: 'Maret'
+            }, {
+                index: 3,
+                nama: 'April'
+            }, {
+                index: 4,
+                nama: 'Mei'
+            }, {
+                index: 5,
+                nama: 'Juni'
+            }, {
+                index: 6,
+                nama: 'Juli'
+            }, {
+                index: 7,
+                nama: 'Agustus'
+            }, {
+                index: 8,
+                nama: 'September'
+            }, {
+                index: 9,
+                nama: 'Oktober'
+            }, {
+                index: 10,
+                nama: 'November'
+            }, {
+                index: 11,
+                nama: 'Desember'
+            },
+        ];
 
         function reload() {
             table.ajax.reload();
@@ -132,16 +175,31 @@
 
         async function getTotalPembayaranSiswa() {
             try {
+                let elBulan = $('#bulan');
                 let siswa = $('#siswa').val();
                 let response = await $.get('/pembayaran/total-pembayaran-siswa?siswa=' + siswa);
-                if(response['status'] === 200) {
+                elBulan.empty();
+                console.log(response);
+                if (response['status'] === 200) {
                     let total = response['payload']['total'].toLocaleString('id-ID');
                     let pembayaran = response['payload']['pembayaran'].toLocaleString('id-ID');
                     let kekurangan = response['payload']['kekurangan'].toLocaleString('id-ID');
+                    let bulanPembayaran = response['payload']['bulan_pembayaran'];
+                    $.each(arrBulan, function (k, v) {
+                        let include = !!bulanPembayaran.includes(v['index']);
+                        let el = '<option value="' + v['index'] + '">' + v['nama'] + '</option>';
+                        if (include) {
+                            el = '<option value="' + v['index'] + '" disabled>' + v['nama'] + '</option>';
+                        }
+                        elBulan.append(el);
+                    });
+                    $('.select2').select2({
+                        width: 'resolve'
+                    });
                     $('#total').html(total);
                     $('#pembayaran').html(pembayaran);
                     $('#kekurangan').html(kekurangan);
-                }else {
+                } else {
                     $('#total').html(0);
                     $('#pembayaran').html(0);
                     $('#kekurangan').html(0);
