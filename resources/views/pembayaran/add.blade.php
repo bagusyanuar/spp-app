@@ -41,7 +41,7 @@
     </div>
     <div class="w-100 p-2">
         <div class="row">
-            <div class="col-sm-12 col-md-5 col-lg-5">
+            <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <p class="font-weight-bold mb-0">Pembayaran Siswa Tahun
@@ -61,6 +61,11 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group w-100">
+                                <label for="per-bulan" class="form-label">Per Bulan</label>
+                                <input type="number" class="form-control" id="per-bulan" placeholder="Per Bulan"
+                                       name="per-bulan" readonly value="0">
+                            </div>
                             <div class="w-100 mb-3">
                                 <label for="bulan">Pembayaran Bulan</label>
                                 <select class="select2" name="bulan[]" id="bulan" multiple
@@ -71,6 +76,13 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <hr>
+                            <div class="row text-right">
+                                <div class="col-9"><p class="font-weight-bold mb-0">Total : Rp. </p></div>
+                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total-bayar">0</span></p>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="text-right">
                                 <a href="#" id="btn-save" class="btn btn-primary"><i
                                         class="fa fa-save mr-1"></i><span
@@ -80,44 +92,44 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-7 col-lg-7">
-                <div class="card card-outline card-info">
-                    <div class="card-header">
-                        <p class="font-weight-bold mb-0">Pos Pembayaran</p>
-                    </div>
-                    <div class="card-body">
-                        <table id="table-data" class="display w-100 table table-bordered mb-3">
-                            <thead>
-                            <tr>
-                                <th width="10%" class="text-center">#</th>
-                                <th>Jenis Pembayaran</th>
-                                <th width="25%">Nominal</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        <hr>
-                        <div class="text-right pr-2">
-                            <div class="row">
-                                <div class="col-9"><p class="font-weight-bold mb-0">Total : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total">0</span></p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-9"><p class="font-weight-bold mb-0">Terbayar : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-9"><p class="font-weight-bold mb-0">Kekurangan : Rp. </p></div>
-                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p>
-                                </div>
-                            </div>
+{{--            <div class="col-sm-12 col-md-7 col-lg-7">--}}
+{{--                <div class="card card-outline card-info">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <p class="font-weight-bold mb-0">Pos Pembayaran</p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body">--}}
+{{--                        <table id="table-data" class="display w-100 table table-bordered mb-3">--}}
+{{--                            <thead>--}}
+{{--                            <tr>--}}
+{{--                                <th width="10%" class="text-center">#</th>--}}
+{{--                                <th>Jenis Pembayaran</th>--}}
+{{--                                <th width="25%">Nominal</th>--}}
+{{--                            </tr>--}}
+{{--                            </thead>--}}
+{{--                            <tbody>--}}
+{{--                            </tbody>--}}
+{{--                        </table>--}}
+{{--                        <hr>--}}
+{{--                        <div class="text-right pr-2">--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-9"><p class="font-weight-bold mb-0">Total : Rp. </p></div>--}}
+{{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total">0</span></p></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-9"><p class="font-weight-bold mb-0">Terbayar : Rp. </p></div>--}}
+{{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-9"><p class="font-weight-bold mb-0">Kekurangan : Rp. </p></div>--}}
+{{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 @endsection
@@ -185,6 +197,7 @@
                     let pembayaran = response['payload']['pembayaran'].toLocaleString('id-ID');
                     let kekurangan = response['payload']['kekurangan'].toLocaleString('id-ID');
                     let bulanPembayaran = response['payload']['bulan_pembayaran'];
+                    let perBulan = response['payload']['per_bulan'];
                     $.each(arrBulan, function (k, v) {
                         let include = !!bulanPembayaran.includes(v['index']);
                         let el = '<option value="' + v['index'] + '">' + v['nama'] + '</option>';
@@ -196,21 +209,33 @@
                     $('.select2').select2({
                         width: 'resolve'
                     });
-                    $('#total').html(total);
-                    $('#pembayaran').html(pembayaran);
-                    $('#kekurangan').html(kekurangan);
+                    $('#per-bulan').val(perBulan);
+                    // $('#total').html(total);
+                    // $('#pembayaran').html(pembayaran);
+                    // $('#kekurangan').html(kekurangan);
                 } else {
-                    $('#total').html(0);
-                    $('#pembayaran').html(0);
-                    $('#kekurangan').html(0);
+                    $('#per-bulan').val(0);
+                    // $('#total').html(0);
+                    // $('#pembayaran').html(0);
+                    // $('#kekurangan').html(0);
                 }
             } catch (e) {
-                $('#total').html(0);
-                $('#pembayaran').html(0);
-                $('#kekurangan').html(0);
+                $('#per-bulan').val(0);
+                // $('#total').html(0);
+                // $('#pembayaran').html(0);
+                // $('#kekurangan').html(0);
                 let error_message = JSON.parse(e.responseText);
                 ErrorAlert('Error', error_message.message);
+            } finally {
+                totalBayar();
             }
+        }
+
+        function totalBayar() {
+            let perBulan = parseInt($('#per-bulan').val());
+            let bulan = $('#bulan').val().length;
+            let totalBayar = perBulan * bulan;
+            $('#total-bayar').html(totalBayar.toLocaleString('id-ID'));
         }
 
         $(document).ready(function () {
@@ -262,6 +287,9 @@
                 });
             });
             getTotalPembayaranSiswa();
+            $('#bulan').on('change', function () {
+                totalBayar();
+            });
         });
     </script>
 @endsection

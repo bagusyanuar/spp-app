@@ -32,4 +32,8 @@ class PosKelasSiswa extends Model
         return $this->belongsTo(TahunAjaran::class, 'tahun_ajaran_id');
     }
 
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class, 'pos_kelas_siswa_id');
+    }
 }

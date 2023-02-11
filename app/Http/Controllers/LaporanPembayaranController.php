@@ -33,7 +33,7 @@ class LaporanPembayaranController extends CustomController
     {
         $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->firstOrFail();
         $kelas = $this->field('kelas');
-        $data_siswa = PosKelasSiswa::with(['siswa', 'kelas'])
+        $data_siswa = PosKelasSiswa::with(['siswa', 'kelas', 'pembayaran.details'])
             ->where('kelas_id', '=', $kelas)
             ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
             ->get();
@@ -45,18 +45,37 @@ class LaporanPembayaranController extends CustomController
 
         $per_bulan = round($total_pembayaran_kelas / 12, 0, PHP_ROUND_HALF_UP);
         $results = [];
-        foreach ($data_siswa as $pos_siswa) {
-            $tmp['id'] = $pos_siswa->id;
-            $tmp['nama'] = $pos_siswa->siswa->nama;
-            $tmp['nis'] = $pos_siswa->siswa->nis;
+        $arrBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desemver'];
+        foreach ($data_siswa as $siswa) {
+            $tmp['id'] = $siswa->id;
+            $tmp['nama'] = $siswa->siswa->nama;
+            $tmp['nis'] = $siswa->siswa->nis;
             $tmp['per_bulan'] = $per_bulan;
-            $membayar = Pembayaran::with([])->where('siswa_id', $pos_siswa->siswa->id)
-                ->where('kelas_id', '=', $kelas)
-                ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
-                ->get()->sum('nominal');
-            $tmp['membayar'] = $membayar;
-            $mod = fmod($membayar, $per_bulan);
-            $tmp['mod'] = $mod;
+            $pembayaranSiswa = $siswa->pembayaran;
+            $tmpBulanTerbayar = [];
+            foreach ($pembayaranSiswa as $pSiswa) {
+                $details = $pSiswa->details;
+                foreach ($details as $detail) {
+                    array_push($tmpBulanTerbayar, $detail->bulan);
+                }
+            }
+            $bulanTerbayar = [];
+            foreach ($arrBulan as $key => $bulan) {
+                if (in_array($key, $tmpBulanTerbayar)) {
+                    array_push($bulanTerbayar, [
+                        'index' => $key,
+                        'name' => $bulan,
+                        'value' => $per_bulan
+                    ]);
+                } else {
+                    array_push($bulanTerbayar, [
+                        'index' => $key,
+                        'name' => $bulan,
+                        'value' => 0
+                    ]);
+                }
+            }
+            $tmp['bulan'] = $bulanTerbayar;
             array_push($results, $tmp);
         }
         return $this->basicDataTables($results);

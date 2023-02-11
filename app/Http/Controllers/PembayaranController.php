@@ -141,6 +141,7 @@ class PembayaranController extends CustomController
             $total = 0;
             $pembayaran = 0;
             $kekurangan = 0;
+            $per_bulan = 0;
             $bulan_pembayaran = [];
             $data_pos_kelas = PosKelasSiswa::find($siswa_id);
             if ($data_pos_kelas) {
@@ -157,6 +158,7 @@ class PembayaranController extends CustomController
 //                    })
                         ->sum('nominal');
                     $kekurangan = (int)$total - (int)$pembayaran;
+                    $per_bulan = round($total / 12, 0);
                 }
 
                 $data_pembayaran = Pembayaran::with(['details'])
@@ -175,7 +177,8 @@ class PembayaranController extends CustomController
                 'total' => (int)$total,
                 'pembayaran' => (int)$pembayaran,
                 'kekurangan' => $kekurangan,
-                'bulan_pembayaran' => $bulan_pembayaran
+                'bulan_pembayaran' => $bulan_pembayaran,
+                'per_bulan' => $per_bulan
             ]);
         } catch (\Exception $e) {
             return $this->jsonResponse('internal server error ' . $e->getMessage(), 500);

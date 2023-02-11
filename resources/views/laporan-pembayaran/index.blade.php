@@ -91,9 +91,87 @@
                 scrollX: true,
                 scrollCollapse: true,
                 paging: true,
+                ajax: {
+                    type: 'GET',
+                    url: '/laporan-pembayaran/data',
+                    'data': function (d) {
+                        d.kelas = $('#kelas').val()
+                    }
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
+                    {data: 'nis'},
+                    {data: 'nama'},
+                    {
+                        data: null,  render: function (data) {
+                            //juni
+                            return data['bulan'][5]['value'];
+                        }
+                    },
+                    {
+                        data: null,  render: function (data) {
+                            //juli
+                            return data['bulan'][6]['value'];
+                        }
+                    },
+                    {
+                        data: null,  render: function (data) {
+                            //agustus
+                            return data['bulan'][7]['value'];
+                        }
+                    },
+                    {
+                        data: null,  render: function (data) {
+                            //september
+                            return data['bulan'][8]['value'];
+                        }
+                    },
+                    {
+                        data: null,  render: function (data) {
+                            //oktober
+                            return data['bulan'][9]['value'];
+                        }
+                    },
+                    {
+                        data: null,  render: function (data) {
+                            //november
+                            return data['bulan'][10]['value'];
+                        }
+                    },{
+                        data: null,  render: function (data) {
+                            //desember
+                            return data['bulan'][11]['value'];
+                        }
+                    },{
+                        data: null,  render: function (data) {
+                            //januari
+                            return data['bulan'][0]['value'];
+                        }
+                    },{
+                        data: null,  render: function (data) {
+                            //februari
+                            return data['bulan'][1]['value'];
+                        }
+                    },{
+                        data: null,  render: function (data) {
+                            //maret
+                            return data['bulan'][2]['value'];
+                        }
+                    },{
+                        data: null,  render: function (data) {
+                            //april
+                            return data['bulan'][3]['value'];
+                        }
+                    },{
+                        data: null,  render: function (data) {
+                            //mei
+                            return data['bulan'][4]['value'];
+                        }
+                    },
+                ],
                 columnDefs: [
-                    {"width": "600px", "targets": [1]},
-                    {"width": "600px", "targets": [2]},
+                    {"width": "150px", "targets": [1]},
+                    {"width": "300px", "targets": [2]},
                     {"width": "80px", "targets": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]},
                 ]
             });
@@ -124,12 +202,12 @@
             //     }
             // });
 
-            $('#tgl1').on('change', function (e) {
+            $('#kelas').on('change', function (e) {
                 reload();
             });
-            $('#tgl2').on('change', function (e) {
-                reload();
-            });
+            // $('#tgl2').on('change', function (e) {
+            //     reload();
+            // });
         });
     </script>
 @endsection
