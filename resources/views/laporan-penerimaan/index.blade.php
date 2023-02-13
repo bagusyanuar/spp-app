@@ -22,11 +22,11 @@
                         <p class="font-weight-bold">Laporan Jurnal Penerimaan Tahun
                             Ajaran {{ $tahun_ajaran !== null ? $tahun_ajaran->periode : '-' }}</p>
                     </div>
-{{--                    <div class="text-right">--}}
-{{--                        <a href="{{ route('pembayaran.add') }}" class="btn btn-primary"><i--}}
-{{--                                class="fa fa-credit-card mr-1"></i><span--}}
-{{--                                class="font-weight-bold">Pembayaran</span></a>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="text-right">--}}
+                    {{--                        <a href="{{ route('pembayaran.add') }}" class="btn btn-primary"><i--}}
+                    {{--                                class="fa fa-credit-card mr-1"></i><span--}}
+                    {{--                                class="font-weight-bold">Pembayaran</span></a>--}}
+                    {{--                    </div>--}}
                 </div>
             </div>
             <div class="card-body">
@@ -53,6 +53,7 @@
                         <th>Nama Siswa</th>
                         <th width="15%">Kelas</th>
                         <th width="15%">Nominal</th>
+                        <th width="10%"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,18 +74,26 @@
     <script>
         var table;
         var path = '/{{ request()->path() }}';
+
         function reload() {
             table.ajax.reload();
         }
+
         $(document).ready(function () {
-            table = DataTableGenerator('#table-data',path, [
+            table = DataTableGenerator('#table-data', path, [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
                 {data: 'tanggal'},
-                {data: 'siswa.nama'},
-                {data: 'kelas.nama'},
+                {data: 'pos_kelas_siswa.siswa.nama'},
+                {data: 'pos_kelas_siswa.kelas.nama'},
                 {
                     data: 'nominal', name: 'nominal', render: function (data) {
                         return 'Rp. ' + data.toLocaleString('id-ID');
+                    }
+                },
+                {
+                    data: null, render: function (data) {
+                        let urlPrint = '/laporan-penerimaan/' + data['id'] + '/cetak';
+                        return '<a href="' + urlPrint + '" target="_blank" class="btn btn-success mr-1"><i class="fa fa-print"></i></a><a href="#" class="btn btn-outline-success"><i class="fa fa-whatsapp"></i></a>';
                     }
                 },
             ], [
@@ -100,7 +109,7 @@
                 "fnDrawCallback": function (setting) {
                     let data = this.fnGetData();
                     let total = data.map(item => item['nominal']).reduce((prev, next) => prev + next, 0);
-                    $('#lbl-total').html('Rp. '+formatUang(total));
+                    $('#lbl-total').html('Rp. ' + formatUang(total));
                 }
             });
 

@@ -60,6 +60,7 @@ Route::group(['prefix' => 'pos-kelas-siswa'], function () {
 
 Route::group(['prefix' => 'laporan-penerimaan'], function () {
     Route::get('/', [\App\Http\Controllers\LaporanJurnalPenerimaanController::class, 'index'])->name('laporan.penerimaan.index');
+    Route::get('/{id}/cetak', [\App\Http\Controllers\LaporanJurnalPenerimaanController::class, 'cetakDetail'])->name('laporan.penerimaan.cetak');
 });
 Route::group(['prefix' => 'laporan-pembayaran'], function () {
     Route::get('/', [\App\Http\Controllers\LaporanPembayaranController::class, 'index'])->name('laporan.pembayaran.index');

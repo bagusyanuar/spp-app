@@ -45,7 +45,7 @@ class LaporanPembayaranController extends CustomController
 
         $per_bulan = round($total_pembayaran_kelas / 12, 0, PHP_ROUND_HALF_UP);
         $results = [];
-        $arrBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desemver'];
+        $arrBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         foreach ($data_siswa as $siswa) {
             $tmp['id'] = $siswa->id;
             $tmp['nama'] = $siswa->siswa->nama;
