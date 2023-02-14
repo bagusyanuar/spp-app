@@ -91,4 +91,13 @@ class LaporanPembayaranController extends CustomController
         }
         return $result;
     }
+
+    public function cetak()
+    {
+        $html = view('cetak.rekapitulasi');
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($html)->setPaper('a4', 'landscape');
+        return $pdf->stream();
+//        return $this->convertToPdf('cetak.rekapitulasi');
+    }
 }

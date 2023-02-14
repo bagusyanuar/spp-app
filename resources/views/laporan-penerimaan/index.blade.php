@@ -119,6 +119,13 @@
             $('#tgl2').on('change', function (e) {
                 reload();
             });
+
+            $('#btn-cetak').on('click', function (e) {
+                e.preventDefault();
+                let tgl1 = $('#tgl1').val();
+                let tgl2 = $('#tgl2').val();
+                window.open('/laporan-penerimaan/cetak?tgl1=' + tgl1 + '&tgl2=' + tgl2, '_blank');
+            });
         });
     </script>
 @endsection

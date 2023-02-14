@@ -30,7 +30,7 @@ Route::group(['prefix' => 'pembayaran'], function () {
     Route::get('/', [\App\Http\Controllers\PembayaranController::class, 'index'])->name('pembayaran');
     Route::get('/total-pembayaran-siswa', [\App\Http\Controllers\PembayaranController::class, 'total_pembayaran_siswa'])->name('pembayaran.siswa');
     Route::match(['get', 'post'], '/tambah', [\App\Http\Controllers\PembayaranController::class, 'add'])->name('pembayaran.add');
-    Route::post('/{id}/delete', [\App\Http\Controllers\PosPembayaranController::class, 'destroy'])->name('pos-pembayaran.delete');
+    Route::get('/{id}/cetak', [\App\Http\Controllers\PembayaranController::class, 'cetakDetail'])->name('pembayaran.cetak');
 });
 
 Route::group(['prefix' => 'kelas'], function () {
@@ -60,10 +60,12 @@ Route::group(['prefix' => 'pos-kelas-siswa'], function () {
 
 Route::group(['prefix' => 'laporan-penerimaan'], function () {
     Route::get('/', [\App\Http\Controllers\LaporanJurnalPenerimaanController::class, 'index'])->name('laporan.penerimaan.index');
+    Route::get('/cetak', [\App\Http\Controllers\LaporanJurnalPenerimaanController::class, 'cetak'])->name('laporan.penerimaan.cetak.all');
     Route::get('/{id}/cetak', [\App\Http\Controllers\LaporanJurnalPenerimaanController::class, 'cetakDetail'])->name('laporan.penerimaan.cetak');
 });
 Route::group(['prefix' => 'laporan-pembayaran'], function () {
     Route::get('/', [\App\Http\Controllers\LaporanPembayaranController::class, 'index'])->name('laporan.pembayaran.index');
     Route::get('/data', [\App\Http\Controllers\LaporanPembayaranController::class, 'getData'])->name('laporan.pembayaran.data');
+    Route::get('/cetak', [\App\Http\Controllers\LaporanPembayaranController::class, 'cetak'])->name('laporan.pembayaran.cetak');
 });
 

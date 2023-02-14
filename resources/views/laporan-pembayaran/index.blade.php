@@ -103,67 +103,67 @@
                     {data: 'nis'},
                     {data: 'nama'},
                     {
-                        data: null,  render: function (data) {
+                        data: null, render: function (data) {
                             //juni
                             return data['bulan'][5]['value'];
                         }
                     },
                     {
-                        data: null,  render: function (data) {
+                        data: null, render: function (data) {
                             //juli
                             return data['bulan'][6]['value'];
                         }
                     },
                     {
-                        data: null,  render: function (data) {
+                        data: null, render: function (data) {
                             //agustus
                             return data['bulan'][7]['value'];
                         }
                     },
                     {
-                        data: null,  render: function (data) {
+                        data: null, render: function (data) {
                             //september
                             return data['bulan'][8]['value'];
                         }
                     },
                     {
-                        data: null,  render: function (data) {
+                        data: null, render: function (data) {
                             //oktober
                             return data['bulan'][9]['value'];
                         }
                     },
                     {
-                        data: null,  render: function (data) {
+                        data: null, render: function (data) {
                             //november
                             return data['bulan'][10]['value'];
                         }
-                    },{
-                        data: null,  render: function (data) {
+                    }, {
+                        data: null, render: function (data) {
                             //desember
                             return data['bulan'][11]['value'];
                         }
-                    },{
-                        data: null,  render: function (data) {
+                    }, {
+                        data: null, render: function (data) {
                             //januari
                             return data['bulan'][0]['value'];
                         }
-                    },{
-                        data: null,  render: function (data) {
+                    }, {
+                        data: null, render: function (data) {
                             //februari
                             return data['bulan'][1]['value'];
                         }
-                    },{
-                        data: null,  render: function (data) {
+                    }, {
+                        data: null, render: function (data) {
                             //maret
                             return data['bulan'][2]['value'];
                         }
-                    },{
-                        data: null,  render: function (data) {
+                    }, {
+                        data: null, render: function (data) {
                             //april
                             return data['bulan'][3]['value'];
                         }
-                    },{
-                        data: null,  render: function (data) {
+                    }, {
+                        data: null, render: function (data) {
                             //mei
                             return data['bulan'][4]['value'];
                         }
@@ -208,6 +208,11 @@
             // $('#tgl2').on('change', function (e) {
             //     reload();
             // });
+
+            $('#btn-cetak').on('click', function (e) {
+                e.preventDefault();
+                window.open('/laporan-pembayaran/cetak', '_blank');
+            });
         });
     </script>
 @endsection

@@ -33,6 +33,17 @@ class LaporanJurnalPenerimaanController extends CustomController
         ]);
     }
 
+    public function cetak()
+    {
+        $tgl1 = $this->field('tgl1');
+        $tgl2 = $this->field('tgl2');
+        $data = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas'])
+            ->whereBetween('tanggal', [$tgl1, $tgl2])
+            ->orderBy('tanggal', 'ASC')
+            ->get();
+        return $this->convertToPdf('cetak.jurnal-penerimaan', ['data' => $data, 'tgl1' => $tgl1, 'tgl2' => $tgl2]);
+    }
+
     public function cetakDetail($id)
     {
         $data = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas', 'details'])

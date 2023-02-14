@@ -46,16 +46,21 @@ class PembayaranController extends CustomController
             DB::beginTransaction();
             try {
                 $data_pos_kelas_siswa = PosKelasSiswa::find($this->postField('siswa'));
+                $arrBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
                 $bulans = $this->postField('bulan');
                 $data_pos_pembayaran = PosPembayaran::where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('kelas_id', '=', $data_pos_kelas_siswa->kelas_id)
                     ->sum('nominal');
                 $per_bulan = round($data_pos_pembayaran / 12, 0);
                 $totalBayar = count($bulans) * $per_bulan;
+                $keterangan = 'Pembayaran Bulan ';
+                foreach ($bulans as $vBulan) {
+                    $keterangan .= $arrBulan[$vBulan] . ', ';
+                }
                 $data_request = [
                     'tanggal' => Carbon::now(),
                     'pos_kelas_siswa_id' => $data_pos_kelas_siswa->id,
                     'nominal' => $totalBayar,
-                    'keterangan' => '',
+                    'keterangan' => $keterangan,
                 ];
                 $pembayaran = Pembayaran::create($data_request);
                 foreach ($bulans as $bulan) {
@@ -185,4 +190,14 @@ class PembayaranController extends CustomController
         }
     }
 
+    public function cetakDetail($id)
+    {
+        $data = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas', 'details'])
+            ->where('id', '=', $id)
+            ->firstOrFail();
+        $html = view('cetak.nota')->with(['data' => $data]);
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($html)->setPaper('a5', 'landscape');
+        return $pdf->stream();
+    }
 }

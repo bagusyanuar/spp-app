@@ -49,6 +49,10 @@
         .text-body-small {
             font-size: 10px;
         }
+
+        .text-body-very-small {
+            font-size: 8px;
+        }
     </style>
 </head>
 <body>

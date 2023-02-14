@@ -78,7 +78,8 @@
                 },
                 {
                     data: null,  render: function (data) {
-                        return '<a href="#" class="btn btn-success"><i class="fa fa-print"></i></a>';
+                        let urlPrint = '/pembayaran/' + data['id'] + '/cetak';
+                        return '<a href="'+urlPrint+'" target="_blank" class="btn btn-success mr-2"><i class="fa fa-print"></i></a><a href="#" class="btn btn-outline-success"><i class="fa fa-whatsapp"></i></a>';
                     }
                 },
             ], [
