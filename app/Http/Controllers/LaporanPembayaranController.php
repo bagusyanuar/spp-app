@@ -94,7 +94,56 @@ class LaporanPembayaranController extends CustomController
 
     public function cetak()
     {
-        $html = view('cetak.rekapitulasi');
+        $tahun_ajaran = TahunAjaran::where('aktif', '=', true)->firstOrFail();
+        $kelas = $this->field('kelas');
+        $kelas_data = Kelas::find($kelas);
+        $data_siswa = PosKelasSiswa::with(['siswa', 'kelas', 'pembayaran.details'])
+            ->where('kelas_id', '=', $kelas)
+            ->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+            ->get();
+
+        $total_pembayaran_kelas = PosPembayaran::with([])->where('tahun_ajaran_id', '=', $tahun_ajaran->id)
+            ->where('kelas_id', '=', $kelas)
+            ->get()
+            ->sum('nominal');
+
+        $per_bulan = round($total_pembayaran_kelas / 12, 0, PHP_ROUND_HALF_UP);
+        $results = [];
+        $arrBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        foreach ($data_siswa as $siswa) {
+            $tmp['id'] = $siswa->id;
+            $tmp['nama'] = $siswa->siswa->nama;
+            $tmp['nis'] = $siswa->siswa->nis;
+            $tmp['per_bulan'] = $per_bulan;
+            $pembayaranSiswa = $siswa->pembayaran;
+            $tmpBulanTerbayar = [];
+            foreach ($pembayaranSiswa as $pSiswa) {
+                $details = $pSiswa->details;
+                foreach ($details as $detail) {
+                    array_push($tmpBulanTerbayar, $detail->bulan);
+                }
+            }
+            $bulanTerbayar = [];
+            foreach ($arrBulan as $key => $bulan) {
+                if (in_array($key, $tmpBulanTerbayar)) {
+                    array_push($bulanTerbayar, [
+                        'index' => $key,
+                        'name' => $bulan,
+                        'value' => $per_bulan
+                    ]);
+                } else {
+                    array_push($bulanTerbayar, [
+                        'index' => $key,
+                        'name' => $bulan,
+                        'value' => 0
+                    ]);
+                }
+            }
+            $tmp['bulan'] = $bulanTerbayar;
+            array_push($results, $tmp);
+        }
+//        dd($results);
+        $html = view('cetak.rekapitulasi')->with(['data' => $results, 'tahun_ajaran' => $tahun_ajaran, 'kelas' => $kelas_data]);
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($html)->setPaper('a4', 'landscape');
         return $pdf->stream();

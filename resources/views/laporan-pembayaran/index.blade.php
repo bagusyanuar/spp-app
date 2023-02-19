@@ -48,7 +48,6 @@
                         <th class="text-center">#</th>
                         <th>NIS</th>
                         <th>Nama Siswa</th>
-                        <th>Juni</th>
                         <th>Juli</th>
                         <th>Agustus</th>
                         <th>September</th>
@@ -60,6 +59,7 @@
                         <th>Maret</th>
                         <th>April</th>
                         <th>Mei</th>
+                        <th>Juni</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -102,12 +102,6 @@
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
                     {data: 'nis'},
                     {data: 'nama'},
-                    {
-                        data: null, render: function (data) {
-                            //juni
-                            return data['bulan'][5]['value'];
-                        }
-                    },
                     {
                         data: null, render: function (data) {
                             //juli
@@ -168,6 +162,12 @@
                             return data['bulan'][4]['value'];
                         }
                     },
+                    {
+                        data: null, render: function (data) {
+                            //juni
+                            return data['bulan'][5]['value'];
+                        }
+                    },
                 ],
                 columnDefs: [
                     {"width": "150px", "targets": [1]},
@@ -211,7 +211,8 @@
 
             $('#btn-cetak').on('click', function (e) {
                 e.preventDefault();
-                window.open('/laporan-pembayaran/cetak', '_blank');
+                let kelas = $('#kelas').val();
+                window.open('/laporan-pembayaran/cetak?kelas=' + kelas, '_blank');
             });
         });
     </script>

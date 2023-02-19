@@ -93,7 +93,10 @@
                 {
                     data: null, render: function (data) {
                         let urlPrint = '/laporan-penerimaan/' + data['id'] + '/cetak';
-                        return '<a href="' + urlPrint + '" target="_blank" class="btn btn-success mr-1"><i class="fa fa-print"></i></a><a href="#" class="btn btn-outline-success"><i class="fa fa-whatsapp"></i></a>';
+                        let whatsapp = '+62' + data['pos_kelas_siswa']['siswa']['no_hp_ortu'];
+                        let message = 'Siswa atas nama ' + data['pos_kelas_siswa']['siswa']['nama'] + ' dengan nomor NIS ' + data['pos_kelas_siswa']['siswa']['nis'] + ' kelas ' + data['pos_kelas_siswa']['kelas']['nama'] + ' telah membayarkan spp sejumlah Rp. ' + data['nominal'] + ' untuk ' + data['keterangan'];
+                        let urlWhatsapp = 'https://wa.me/' + whatsapp + '?text=' + message;
+                        return '<a href="' + urlPrint + '" target="_blank" class="btn btn-success mr-1"><i class="fa fa-print"></i></a><a href="' + urlWhatsapp + '" target="_blank" class="btn btn-outline-success"><i class="fa fa-whatsapp"></i></a>';
                     }
                 },
             ], [
