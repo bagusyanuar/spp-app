@@ -21,9 +21,9 @@
                     <a href="{{ route('siswa.store') }}" class="btn btn-primary"><i
                             class="fa fa-plus mr-1"></i><span
                             class="">Tambah</span></a>
-                    <a href="#" class="btn btn-success"><i
-                            class="fa fa-print mr-1"></i><span
-                            class="">Cetak</span></a>
+{{--                    <a href="#" class="btn btn-success"><i--}}
+{{--                            class="fa fa-print mr-1"></i><span--}}
+{{--                            class="">Cetak</span></a>--}}
                 </div>
             </div>
             <div class="card-body">
