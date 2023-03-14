@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-Route::get('/login', function (){
-    return view('login');
-})->name('login');
+Route::match(['post', 'get'], '/', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 Route::group(['prefix' => 'jenis-pembayaran'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\JenisPembayaranController::class, 'index'])->name('jenis-pembayaran');
     Route::post('/{id}', [\App\Http\Controllers\JenisPembayaranController::class, 'patch'])->name('jenis-pembayaran.update');

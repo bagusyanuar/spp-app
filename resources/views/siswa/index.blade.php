@@ -34,7 +34,7 @@
                         <th width="5%" class="text-center">#</th>
                         <th width="15%">NIS</th>
                         <th>Nama</th>
-                        <th width="10%">Kelas</th>
+{{--                        <th width="10%">Kelas</th>--}}
                         <th width="10%" class="text-center">Action</th>
                     </tr>
                     </thead>
@@ -167,7 +167,7 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
                 {data: 'nis', orderable: true, className: 'text-center'},
                 {data: 'nama'},
-                {data: 'kelas.nama', className: 'text-center'},
+                // {data: 'kelas.nama', className: 'text-center'},
                 {
                     className: 'text-center',
                     searchable: false, orderable: false,

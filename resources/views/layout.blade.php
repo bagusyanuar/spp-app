@@ -67,7 +67,7 @@
                      data-accordion="false">
                     <li class="nav-header">Menu</li>
                     <li class="nav-item">
-                        <a href="#"
+                        <a href="{{ route('dashboard') }}"
                            class="nav-link">
                             <i class="fa fa-tachometer nav-icon" aria-hidden="true"></i>
                             <p>Dashboard</p>
