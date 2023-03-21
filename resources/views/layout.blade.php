@@ -66,6 +66,7 @@
                 <nav class="mt-2 nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                      data-accordion="false">
                     <li class="nav-header">Menu</li>
+                    @if(auth()->user()->role == "admin")
                     <li class="nav-item">
                         <a href="{{ route('dashboard') }}"
                            class="nav-link">
@@ -144,6 +145,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
                     <li class="nav-item has-treeview {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'menu-open' : ''}}">
                         <a href="#" class="nav-link {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'active' : ''}}">
                             <i class="nav-icon fa fa-bar-chart"></i>
