@@ -21,6 +21,7 @@
             overflow: unset !important;
             padding-right: 0 !important;
         }
+
         body.modal-open {
             padding-right: 0 !important;
         }
@@ -66,7 +67,6 @@
                 <nav class="mt-2 nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                      data-accordion="false">
                     <li class="nav-header">Menu</li>
-                    @if(auth()->user()->role == "admin")
                     <li class="nav-item">
                         <a href="{{ route('dashboard') }}"
                            class="nav-link">
@@ -74,80 +74,93 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('pembayaran') }}"
-                           class="nav-link {{ request()->is('pembayaran*') ? 'active' : ''}}">
-                            <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
-                            <p>Pembayaran Siswa</p>
-                        </a>
-                    </li>
-                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['jenis-pembayaran', 'pos-pembayaran']) ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ in_array(request()->path(), ['jenis-pembayaran', 'pos-pembayaran']) ? 'active' : ''}}">
-                            <i class="nav-icon fa fa-money"></i>
-                            <p>
-                                Keuangan
-                                <i class="right fa fa-angle-down"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('jenis-pembayaran') }}"
-                                   class="nav-link {{ request()->is('jenis-pembayaran') ? 'active' : ''}}">
-                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Jenis Pembayaran</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('pos-pembayaran') }}"
-                                   class="nav-link {{ request()->is('pos-pembayaran') ? 'active' : ''}}">
-                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Pos Pembayaran</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa', 'pos-kelas-siswa']) ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa', 'pos-kelas-siswa']) ? 'active' : ''}}">
-                            <i class="nav-icon fa fa-database"></i>
-                            <p>
-                                Manajemen Data
-                                <i class="right fa fa-angle-down"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('tahun-ajaran') }}"
-                                   class="nav-link {{ request()->is('tahun-ajaran') ? 'active' : ''}}">
-                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Tahun Ajaran</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('kelas') }}"
-                                   class="nav-link {{ request()->is('kelas') ? 'active' : ''}}">
-                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Kelas</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('siswa') }}"
-                                   class="nav-link {{ request()->is('siswa') ? 'active' : ''}}">
-                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Siswa</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('pos-kelas-siswa') }}"
-                                   class="nav-link {{ request()->is('pos-kelas-siswa') ? 'active' : ''}}">
-                                    <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
-                                    <p>Pos Kelas Siswa</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if(auth()->user()->role == "pimpinan")
+                        <li class="nav-item">
+                            <a href="{{ route('pengguna.index') }}"
+                               class="nav-link {{ request()->is('pengguna*') ? 'active' : ''}}">
+                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                                <p>Pengguna</p>
+                            </a>
+                        </li>
+                    @endif
+                    @if(auth()->user()->role == "admin")
+                        <li class="nav-item">
+                            <a href="{{ route('pembayaran') }}"
+                               class="nav-link {{ request()->is('pembayaran*') ? 'active' : ''}}">
+                                <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
+                                <p>Pembayaran Siswa</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview {{ in_array(request()->path(), ['jenis-pembayaran', 'pos-pembayaran']) ? 'menu-open' : ''}}">
+                            <a href="#"
+                               class="nav-link {{ in_array(request()->path(), ['jenis-pembayaran', 'pos-pembayaran']) ? 'active' : ''}}">
+                                <i class="nav-icon fa fa-money"></i>
+                                <p>
+                                    Keuangan
+                                    <i class="right fa fa-angle-down"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('jenis-pembayaran') }}"
+                                       class="nav-link {{ request()->is('jenis-pembayaran') ? 'active' : ''}}">
+                                        <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                        <p>Jenis Pembayaran</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('pos-pembayaran') }}"
+                                       class="nav-link {{ request()->is('pos-pembayaran') ? 'active' : ''}}">
+                                        <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                        <p>Pos Pembayaran</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa', 'pos-kelas-siswa']) ? 'menu-open' : ''}}">
+                            <a href="#"
+                               class="nav-link {{ in_array(request()->path(), ['tahun-ajaran', 'kelas', 'siswa', 'pos-kelas-siswa']) ? 'active' : ''}}">
+                                <i class="nav-icon fa fa-database"></i>
+                                <p>
+                                    Manajemen Data
+                                    <i class="right fa fa-angle-down"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('tahun-ajaran') }}"
+                                       class="nav-link {{ request()->is('tahun-ajaran') ? 'active' : ''}}">
+                                        <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                        <p>Tahun Ajaran</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('kelas') }}"
+                                       class="nav-link {{ request()->is('kelas') ? 'active' : ''}}">
+                                        <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                        <p>Kelas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('siswa') }}"
+                                       class="nav-link {{ request()->is('siswa') ? 'active' : ''}}">
+                                        <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                        <p>Siswa</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('pos-kelas-siswa') }}"
+                                       class="nav-link {{ request()->is('pos-kelas-siswa') ? 'active' : ''}}">
+                                        <i class="fa fa-circle-o nav-icon" aria-hidden="true"></i>
+                                        <p>Pos Kelas Siswa</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     @endif
                     <li class="nav-item has-treeview {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'menu-open' : ''}}">
-                        <a href="#" class="nav-link {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'active' : ''}}">
+                        <a href="#"
+                           class="nav-link {{ in_array(request()->path(), ['laporan-penerimaan', 'laporan-pembayaran']) ? 'active' : ''}}">
                             <i class="nav-icon fa fa-bar-chart"></i>
                             <p>
                                 Laporan

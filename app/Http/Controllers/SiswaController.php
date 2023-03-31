@@ -47,9 +47,47 @@ class SiswaController extends CustomController
             } catch (\Exception $e) {
                 return redirect()->back()->with('failed', 'terjadi kesalahan server');
             }
-            dd($data_request);
         }
         $kelas = Kelas::all();
         return view('siswa.add')->with(['kelas' => $kelas]);
+    }
+
+    public function edit_page($id)
+    {
+        $data = Siswa::findOrFail($id);
+        if ($this->request->method() === 'POST') {
+            $data_request = [
+                'nis' => $this->postField('nis'),
+                'kelas_id' => $this->postField('kelas'),
+                'nama' => $this->postField('nama'),
+                'jenis_kelamin' => $this->postField('jenis_kelamin'),
+                'tempat_lahir' => $this->postField('tempat_lahir'),
+                'tanggal_lahir' => $this->postField('tanggal_lahir'),
+                'no_hp' => $this->postField('no_hp'),
+                'alamat' => $this->postField('alamat'),
+                'status' => $this->postField('status'),
+                'ibu' => $this->postField('ibu'),
+                'ayah' => $this->postField('ayah'),
+                'no_hp_ortu' => $this->postField('no_hp_ortu'),
+            ];
+            try {
+                $data->update($data_request);
+                return redirect('/siswa')->with('success', 'Berhasil merubah data');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('failed', 'terjadi kesalahan server');
+            }
+        }
+        return view('siswa.edit')->with(['data' => $data]);
+    }
+
+    public function destroy()
+    {
+        try {
+            $id = $this->postField('id');
+            Siswa::destroy($id);
+            return $this->jsonResponse('success', 200);
+        }catch (\Exception $e) {
+            return $this->jsonResponse('failed', 500);
+        }
     }
 }

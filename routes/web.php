@@ -17,6 +17,16 @@ Route::match(['post', 'get'], '/', [\App\Http\Controllers\AuthController::class,
 Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+Route::group(['prefix' => 'pengguna'], function () {
+    Route::get('/', [\App\Http\Controllers\PenggunaController::class, 'index'])->name('pengguna.index');
+    Route::get('/tambah', [\App\Http\Controllers\PenggunaController::class, 'add_page'])->name('pengguna.add_page');
+    Route::post('/create', [\App\Http\Controllers\PenggunaController::class, 'create'])->name('pengguna.create');
+    Route::get('/edit/{id}', [\App\Http\Controllers\PenggunaController::class, 'edit_page'])->name('pengguna.edit');
+    Route::post('/patch', [\App\Http\Controllers\PenggunaController::class, 'patch'])->name('pengguna.patch');
+    Route::post('/destroy', [\App\Http\Controllers\PenggunaController::class, 'destroy'])->name('pengguna.destroy');
+});
+
 Route::group(['prefix' => 'jenis-pembayaran'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\JenisPembayaranController::class, 'index'])->name('jenis-pembayaran');
     Route::post('/{id}', [\App\Http\Controllers\JenisPembayaranController::class, 'patch'])->name('jenis-pembayaran.update');
@@ -51,9 +61,8 @@ Route::group(['prefix' => 'tahun-ajaran'], function () {
 Route::group(['prefix' => 'siswa'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\SiswaController::class, 'index'])->name('siswa');
     Route::match(['get', 'post'], '/add', [\App\Http\Controllers\SiswaController::class, 'store'])->name('siswa.store');
-    Route::post('/{id}', [\App\Http\Controllers\SiswaController::class, 'patch'])->name('siswa.update');
-    Route::post('/{id}/delete', [\App\Http\Controllers\SiswaController::class, 'destroy'])->name('siswa.delete');
-    Route::post('/{id}/change', [\App\Http\Controllers\SiswaController::class, 'change'])->name('siswa.change');
+    Route::match(['post', 'get'],'/{id}/edit', [\App\Http\Controllers\SiswaController::class, 'edit_page'])->name('siswa.update');
+    Route::post('/destroy', [\App\Http\Controllers\SiswaController::class, 'destroy'])->name('siswa.delete');
 });
 
 Route::group(['prefix' => 'pos-kelas-siswa'], function () {

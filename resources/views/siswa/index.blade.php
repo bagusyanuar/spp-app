@@ -21,9 +21,9 @@
                     <a href="{{ route('siswa.store') }}" class="btn btn-primary"><i
                             class="fa fa-plus mr-1"></i><span
                             class="">Tambah</span></a>
-{{--                    <a href="#" class="btn btn-success"><i--}}
-{{--                            class="fa fa-print mr-1"></i><span--}}
-{{--                            class="">Cetak</span></a>--}}
+                    {{--                    <a href="#" class="btn btn-success"><i--}}
+                    {{--                            class="fa fa-print mr-1"></i><span--}}
+                    {{--                            class="">Cetak</span></a>--}}
                 </div>
             </div>
             <div class="card-body">
@@ -34,7 +34,7 @@
                         <th width="5%" class="text-center">#</th>
                         <th width="15%">NIS</th>
                         <th>Nama</th>
-{{--                        <th width="10%">Kelas</th>--}}
+                        {{--                        <th width="10%">Kelas</th>--}}
                         <th width="10%" class="text-center">Action</th>
                     </tr>
                     </thead>
@@ -53,11 +53,8 @@
         var table;
 
         function destroy(id) {
-            let url = '{{ route('tahun-ajaran') }}' + '/' + id + '/delete';
-            AjaxPost(url, {}, function () {
-                clear();
-                SuccessAlert('Berhasil!', 'Berhasil menghapus data...');
-                reload();
+            AjaxPost('/siswa/destroy', {id}, function () {
+                window.location.reload();
             });
         }
 
@@ -113,7 +110,7 @@
                 '<div class="col-lg-3 col-md-4 col-sm-6">' +
                 '<p class="mb-0">Tempat, Tanggal Lahir</p>' +
                 '</div>' +
-                '<div class="col-lg-9 col-md-8 col-sm-6">: ' + d['tempat_lahir'] + ', '+d['tanggal_lahir']+'</div>' +
+                '<div class="col-lg-9 col-md-8 col-sm-6">: ' + d['tempat_lahir'] + ', ' + d['tanggal_lahir'] + '</div>' +
                 '</div>' +
                 '<div class="row">' +
                 '<div class="col-lg-3 col-md-4 col-sm-6">' +
@@ -135,6 +132,7 @@
                 '</div>' +
                 '</div>';
         }
+
         function setExpand() {
             $('#table-data tbody').on('click', 'td.dt-control', function () {
                 var tr = $(this).closest('tr');
@@ -155,6 +153,7 @@
                 }
             });
         }
+
         $(document).ready(function () {
             table = DataTableGenerator('#table-data', '/siswa', [
                 {
@@ -172,13 +171,12 @@
                     className: 'text-center',
                     searchable: false, orderable: false,
                     data: null, render: function (data) {
-                        return '<a href="#" class="btn btn-sm btn-warning btn-edit" data-id="' + data['id'] + '"><i class="fa fa-edit f12"></i></a>' +
+                        let editUrl = '/siswa/' + data['id'] + '/edit';
+                        return '<a href="' + editUrl + '" class="btn btn-sm btn-warning btn-edit" data-id="' + data['id'] + '"><i class="fa fa-edit f12"></i></a>' +
                             '<a href="#" class="btn btn-sm btn-danger btn-delete" data-id="' + data['id'] + '"><i class="fa fa-trash f12"></i></a>';
                     }
                 },
-            ], [
-
-            ], function (d) {
+            ], [], function (d) {
             }, {
                 "fnDrawCallback": function (setting) {
                     setExpand();
