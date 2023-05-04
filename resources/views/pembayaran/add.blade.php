@@ -92,46 +92,47 @@
                     </div>
                 </div>
             </div>
-            {{--            <div class="col-sm-12 col-md-7 col-lg-7">--}}
-            {{--                <div class="card card-outline card-info">--}}
-            {{--                    <div class="card-header">--}}
-            {{--                        <p class="font-weight-bold mb-0">Pos Pembayaran</p>--}}
-            {{--                    </div>--}}
-            {{--                    <div class="card-body">--}}
-            {{--                        <table id="table-data" class="display w-100 table table-bordered mb-3">--}}
-            {{--                            <thead>--}}
-            {{--                            <tr>--}}
-            {{--                                <th width="10%" class="text-center">#</th>--}}
-            {{--                                <th>Jenis Pembayaran</th>--}}
-            {{--                                <th width="25%">Nominal</th>--}}
-            {{--                            </tr>--}}
-            {{--                            </thead>--}}
-            {{--                            <tbody>--}}
-            {{--                            </tbody>--}}
-            {{--                        </table>--}}
-            {{--                        <hr>--}}
-            {{--                        <div class="text-right pr-2">--}}
-            {{--                            <div class="row">--}}
-            {{--                                <div class="col-9"><p class="font-weight-bold mb-0">Total : Rp. </p></div>--}}
-            {{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total">0</span></p></div>--}}
-            {{--                            </div>--}}
-            {{--                            <div class="row">--}}
-            {{--                                <div class="col-9"><p class="font-weight-bold mb-0">Terbayar : Rp. </p></div>--}}
-            {{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                            <div class="row">--}}
-            {{--                                <div class="col-9"><p class="font-weight-bold mb-0">Kekurangan : Rp. </p></div>--}}
-            {{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-
-            {{--                        </div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
         </div>
     </div>
+
+    {{--            <div class="col-sm-12 col-md-7 col-lg-7">--}}
+    {{--                <div class="card card-outline card-info">--}}
+    {{--                    <div class="card-header">--}}
+    {{--                        <p class="font-weight-bold mb-0">Pos Pembayaran</p>--}}
+    {{--                    </div>--}}
+    {{--                    <div class="card-body">--}}
+    {{--                        <table id="table-data" class="display w-100 table table-bordered mb-3">--}}
+    {{--                            <thead>--}}
+    {{--                            <tr>--}}
+    {{--                                <th width="10%" class="text-center">#</th>--}}
+    {{--                                <th>Jenis Pembayaran</th>--}}
+    {{--                                <th width="25%">Nominal</th>--}}
+    {{--                            </tr>--}}
+    {{--                            </thead>--}}
+    {{--                            <tbody>--}}
+    {{--                            </tbody>--}}
+    {{--                        </table>--}}
+    {{--                        <hr>--}}
+    {{--                        <div class="text-right pr-2">--}}
+    {{--                            <div class="row">--}}
+    {{--                                <div class="col-9"><p class="font-weight-bold mb-0">Total : Rp. </p></div>--}}
+    {{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="total">0</span></p></div>--}}
+    {{--                            </div>--}}
+    {{--                            <div class="row">--}}
+    {{--                                <div class="col-9"><p class="font-weight-bold mb-0">Terbayar : Rp. </p></div>--}}
+    {{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="pembayaran">0</span></p>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                            <div class="row">--}}
+    {{--                                <div class="col-9"><p class="font-weight-bold mb-0">Kekurangan : Rp. </p></div>--}}
+    {{--                                <div class="col-3"><p class="font-weight-bold mb-0"><span id="kekurangan">0</span></p>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
 @endsection
 
 @section('js')
