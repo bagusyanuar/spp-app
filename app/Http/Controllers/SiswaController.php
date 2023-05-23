@@ -42,19 +42,19 @@ class SiswaController extends CustomController
                 'no_hp_ortu' => $this->postField('no_hp_ortu'),
             ];
             try {
-                Siswa::create($data_request);
+                Siswa::create($data_request); //create (C)
                 return redirect()->back()->with('success', 'Berhasil menambah data');
             } catch (\Exception $e) {
                 return redirect()->back()->with('failed', 'terjadi kesalahan server');
             }
         }
-        $kelas = Kelas::all();
+        $kelas = Kelas::all(); //read (R)
         return view('siswa.add')->with(['kelas' => $kelas]);
     }
 
     public function edit_page($id)
     {
-        $data = Siswa::findOrFail($id);
+        $data = Siswa::findOrFail($id); //read (R)
         if ($this->request->method() === 'POST') {
             $data_request = [
                 'nis' => $this->postField('nis'),
@@ -71,7 +71,7 @@ class SiswaController extends CustomController
                 'no_hp_ortu' => $this->postField('no_hp_ortu'),
             ];
             try {
-                $data->update($data_request);
+                $data->update($data_request); //update (U)
                 return redirect('/siswa')->with('success', 'Berhasil merubah data');
             } catch (\Exception $e) {
                 return redirect()->back()->with('failed', 'terjadi kesalahan server');
@@ -84,7 +84,7 @@ class SiswaController extends CustomController
     {
         try {
             $id = $this->postField('id');
-            Siswa::destroy($id);
+            Siswa::destroy($id); //delete (D)
             return $this->jsonResponse('success', 200);
         }catch (\Exception $e) {
             return $this->jsonResponse('failed', 500);
