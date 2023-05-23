@@ -62,4 +62,13 @@ class PosKelasSiswaController extends CustomController
             'siswa' => $siswa
         ]);
     }
+
+    public function destroy($id) {
+        try {
+            PosKelasSiswa::destroy($id);
+            return $this->jsonResponse('success', 200);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('failed', 500);
+        }
+    }
 }

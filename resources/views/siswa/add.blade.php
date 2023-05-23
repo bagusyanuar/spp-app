@@ -110,14 +110,6 @@
                                     <input type="text" class="form-control" id="nis" placeholder="NIS"
                                            name="nis" form="form-input">
                                 </div>
-{{--                                <div class="w-100 mb-2">--}}
-{{--                                    <label for="kelas">Kelas</label>--}}
-{{--                                    <select id="kelas" class="form-control" name="kelas" form="form-input">--}}
-{{--                                        @foreach($kelas as $v)--}}
-{{--                                            <option value="{{ $v->id }}">{{ $v->nama }}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
                             </div>
                             <div class="tab-pane fade pt-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <div class="w-100 mb-2">
@@ -171,8 +163,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 @endsection
 

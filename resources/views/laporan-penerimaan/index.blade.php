@@ -22,11 +22,7 @@
                         <p class="font-weight-bold">Laporan Jurnal Penerimaan Tahun
                             Ajaran {{ $tahun_ajaran !== null ? $tahun_ajaran->periode : '-' }}</p>
                     </div>
-                    {{--                    <div class="text-right">--}}
-                    {{--                        <a href="{{ route('pembayaran.add') }}" class="btn btn-primary"><i--}}
-                    {{--                                class="fa fa-credit-card mr-1"></i><span--}}
-                    {{--                                class="font-weight-bold">Pembayaran</span></a>--}}
-                    {{--                    </div>--}}
+
                 </div>
             </div>
             <div class="card-body">
@@ -67,6 +63,12 @@
             </div>
         </div>
     </div>
+
+    {{--                    <div class="text-right">--}}
+    {{--                        <a href="{{ route('pembayaran.add') }}" class="btn btn-primary"><i--}}
+    {{--                                class="fa fa-credit-card mr-1"></i><span--}}
+    {{--                                class="font-weight-bold">Pembayaran</span></a>--}}
+    {{--                    </div>--}}
 @endsection
 
 @section('js')

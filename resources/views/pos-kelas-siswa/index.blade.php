@@ -127,6 +127,37 @@
             });
         }
 
+        function destroy(id) {
+            let url = '{{ route('pos-kelas-siswa') }}' + '/' + id + '/delete';
+            AjaxPost(url, {}, function () {
+                clear();
+                SuccessAlert('Berhasil!', 'Berhasil menghapus data...');
+                reload();
+            });
+        }
+
+        function deleteEvent() {
+            $('.btn-delete').on('click', function (e) {
+                e.preventDefault();
+                let id = this.dataset.id;
+                Swal.fire({
+                    title: "Konfirmasi!",
+                    text: "Apakah anda yakin menghapus data?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.value) {
+                        destroy(id);
+                    }
+                });
+
+            })
+        }
+
         $(document).ready(function () {
             $('.select2').select2({
                 width: 'resolve'
@@ -150,6 +181,7 @@
                 d.kelas = $('#kelas').val();
             }, {
                 "fnDrawCallback": function (setting) {
+                    deleteEvent();
                 },
             });
             $('#btn-save').on('click', function () {
@@ -176,6 +208,8 @@
             $('#kelas').on('change', function () {
                 reload();
             })
+
+            deleteEvent();
         });
     </script>
 @endsection
