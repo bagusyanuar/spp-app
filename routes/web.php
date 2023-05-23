@@ -67,6 +67,7 @@ Route::group(['prefix' => 'siswa'], function () {
 
 Route::group(['prefix' => 'pos-kelas-siswa'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\PosKelasSiswaController::class, 'index'])->name('pos-kelas-siswa');
+    Route::post('/{id}/delete', [\App\Http\Controllers\PosKelasSiswaController::class, 'destroy'])->name('pos-kelas-siswa.delete');
 });
 
 Route::group(['prefix' => 'laporan-penerimaan'], function () {
