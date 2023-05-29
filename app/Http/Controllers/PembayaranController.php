@@ -72,9 +72,13 @@ class PembayaranController extends CustomController
                     PembayaranDetail::create($data_detail);
                 }
                 DB::commit();
-                return redirect()->route('pembayaran')->with('success', 'berhasil menyimpan pembayaran');
+                $pid = $pembayaran->id;
+                $dt = Pembayaran::with(['pos_kelas_siswa.siswa', 'pos_kelas_siswa.kelas'])->where('id', '=', $pid)->first();
+//                return $this->jsonResponse('success', 200);
+                return redirect()->route('pembayaran')->with('success', 'berhasil menyimpan pembayaran')->with('dt', $dt);
             } catch (\Exception $e) {
                 DB::rollBack();
+//                return $this->jsonResponse('failed ' . $e->getMessage(), 500);
                 return redirect()->back()->with('failed', 'terjadi kesalahan server...');
             }
 

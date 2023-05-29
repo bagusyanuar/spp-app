@@ -29,7 +29,7 @@
                     <tr>
                         <th width="5%" class="text-center">#</th>
                         <th>Periode</th>
-                        <th width="15%">Status</th>
+                        <th width="15%">Aktif</th>
                         <th width="10%" class="text-center">Action</th>
                     </tr>
                     </thead>

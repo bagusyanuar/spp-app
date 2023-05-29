@@ -15,6 +15,15 @@
             Swal.fire("Gagal", '{{\Illuminate\Support\Facades\Session::get('failed')}}', "error")
         </script>
     @endif
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <div>
+                @foreach ($errors->all() as $error)
+                    <div>- {{$error}}</div>
+                @endforeach
+            </div>
+        </div>
+    @endif
     <div class="d-flex align-items-center justify-content-between mb-3">
         <p class="font-weight-bold mb-0" style="font-size: 20px">Halaman Tambah Siswa</p>
         <ol class="breadcrumb breadcrumb-transparent mb-0">
@@ -56,7 +65,7 @@
                                     <div class="w-100 mb-2">
                                         <label for="nama" class="form-label">Nama Lengkap *</label>
                                         <input type="text" class="form-control" id="nama" placeholder="Nama Lengkap"
-                                               name="nama">
+                                               name="nama" required>
                                     </div>
                                     <div class="w-100 mb-2">
                                         <label class="form-label">Jenis Kelamin</label>
@@ -79,7 +88,7 @@
                                         <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
                                         <input type="text" class="form-control" id="tempat_lahir"
                                                placeholder="Tempat Lahir"
-                                               name="tempat_lahir">
+                                               name="tempat_lahir" required>
                                     </div>
                                     <div class="w-100 mb-2">
                                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
