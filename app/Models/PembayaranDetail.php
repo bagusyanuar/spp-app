@@ -14,9 +14,13 @@ class PembayaranDetail extends Model
     protected $fillable = [
         'pembayaran_id',
         'bulan',
-        'nominal'
+        'nominal',
+        'keterangan'
     ];
 
+    protected $casts = [
+        'keterangan' => 'array'
+    ];
     public function pembayaran()
     {
         return $this->belongsTo(Pembayaran::class, 'pembayaran_id');

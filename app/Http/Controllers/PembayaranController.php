@@ -48,8 +48,15 @@ class PembayaranController extends CustomController
                 $data_pos_kelas_siswa = PosKelasSiswa::find($this->postField('siswa'));
                 $arrBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
                 $bulans = $this->postField('bulan');
-                $data_pos_pembayaran = PosPembayaran::where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('kelas_id', '=', $data_pos_kelas_siswa->kelas_id)
-                    ->sum('nominal');
+                $p_pembayaran = PosPembayaran::with(['jenis_pembayaran'])->where('tahun_ajaran_id', '=', $tahun_ajaran->id)->where('kelas_id', '=', $data_pos_kelas_siswa->kelas_id)->get();
+                $detail_text = [];
+                foreach ($p_pembayaran as $vp) {
+                    $p = $vp->jenis_pembayaran->nama;
+                    $n = ($vp->nominal / 12);
+                    $t = 'Pembayaran ' . $p . ' sebesar Rp. ' . number_format($n, 0, ',', '.');
+                    array_push($detail_text, $t);
+                }
+                $data_pos_pembayaran = $p_pembayaran->sum('nominal');
                 $per_bulan = round($data_pos_pembayaran / 12, 0);
                 $totalBayar = count($bulans) * $per_bulan;
                 $keterangan = 'Pembayaran Bulan ';
@@ -67,7 +74,8 @@ class PembayaranController extends CustomController
                     $data_detail = [
                         'pembayaran_id' => $pembayaran->id,
                         'bulan' => $bulan,
-                        'nominal' => $per_bulan
+                        'nominal' => $per_bulan,
+                        'keterangan' => $detail_text
                     ];
                     PembayaranDetail::create($data_detail);
                 }
@@ -79,7 +87,7 @@ class PembayaranController extends CustomController
             } catch (\Exception $e) {
                 DB::rollBack();
 //                return $this->jsonResponse('failed ' . $e->getMessage(), 500);
-                return redirect()->back()->with('failed', 'terjadi kesalahan server...');
+                return redirect()->back()->with('failed', 'terjadi kesalahan server...'.$e->getMessage());
             }
 
         }
