@@ -12,7 +12,13 @@
         <div class="d-flex justify-content-center align-items-center" style="height: 400px;">
             <div class="text-center">
                 <img src="{{ asset('assets/icon/logo.png') }}" height="300" alt="logo">
-                <p class="font-weight-bold">Sistem Informasi Pembayaran SPP SMK Muhammadiyah 2 Wuryantoro</p>
+                <p class="font-weight-bold mt-3 mb-0">Sistem Informasi Pembayaran SPP SMK Muhammadiyah 2 Wuryantoro</p>
+                @if($tahun_ajaran == null)
+                    <p class="font-weight-bold mt-1">Periode Tahun Ajaran Belum Di Tentukan</p>
+                @else
+                    <p class="font-weight-bold mt-1">Periode Tahun Ajaran {{ $tahun_ajaran->periode }}</p>
+                @endif
+
             </div>
 
         </div>

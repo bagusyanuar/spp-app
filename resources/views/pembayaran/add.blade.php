@@ -240,6 +240,23 @@
             $('#total-bayar').html(totalBayar.toLocaleString('id-ID'));
         }
 
+        {{--function save() {--}}
+        {{--    let bulans = $('#bulan').val();--}}
+        {{--    let siswa = $('#siswa').val();--}}
+        {{--    let data = {--}}
+        {{--        bulan: bulans,--}}
+        {{--        siswa: siswa--}}
+        {{--    };--}}
+        {{--    let url = '{{ route('pembayaran.add') }}';--}}
+        {{--    AjaxPost(url, data, function () {--}}
+        {{--        Swal.fire('Berhasil!', 'berhasil menyimpan pembayaran', 'success').then((res) => {--}}
+        {{--            window.location.href = '/pembayaran';--}}
+        {{--            window.open(url, Date.now()).focus();--}}
+        {{--        });--}}
+        {{--        SuccessAlert('Berhasil!', 'Berhasil merubah data...');--}}
+        {{--    });--}}
+        {{--}--}}
+
         $(document).ready(function () {
             $('.select2').select2({
                 width: 'resolve'
@@ -284,6 +301,7 @@
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.value) {
+                        // save();
                         $('#form-save').submit();
                     }
                 });

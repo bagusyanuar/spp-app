@@ -9,6 +9,35 @@
             Swal.fire("Berhasil!", '{{\Illuminate\Support\Facades\Session::get('success')}}', "success")
         </script>
     @endif
+    @if (\Illuminate\Support\Facades\Session::has('dt'))
+        @php
+            $data = \Illuminate\Support\Facades\Session::get('dt');
+            $id = $data->id;
+            $hp = $data->pos_kelas_siswa->siswa->no_hp_ortu;
+            $nama = $data->pos_kelas_siswa->siswa->nama;
+            $nis = $data->pos_kelas_siswa->siswa->nis;
+            $kelas = $data->pos_kelas_siswa->kelas->nama;
+            $nominal = $data->nominal;
+            $keterangan = $data->keterangan;
+        @endphp
+        <script>
+            let id = '{{$id}}';
+            let hp = '{{ $hp }}';
+            let nama = '{{ $nama }}';
+            let nis = '{{ $nis }}';
+            let kelas = '{{ $kelas }}';
+            let nominal = '{{ $nominal }}';
+            let keterangan = '{{ $keterangan }}';
+            let whatsapp = '+62' + id;
+            let urlPrint = '/pembayaran/' + id + '/cetak';
+            let message = 'Siswa atas nama ' + nama + ' dengan nomor NIS ' + nis + ' kelas ' + kelas + ' telah membayarkan spp sejumlah Rp. ' + nominal + ' untuk ' + keterangan;
+            let urlWhatsapp = 'https://wa.me/' + whatsapp + '?text=' + message;
+            var win = window.open(urlWhatsapp, '_blank');
+            var win2 = window.open('/pembayaran/' + id + '/cetak', '_blank');
+            win.focus();
+            // window.open(urlWhatsapp).focus();
+        </script>
+    @endif
     <div class="d-flex align-items-center justify-content-between mb-3">
         <p class="font-weight-bold mb-0" style="font-size: 20px">Halaman Pembayaran Siswa</p>
         <ol class="breadcrumb breadcrumb-transparent mb-0">
